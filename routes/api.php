@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterBannerController;
+use App\Http\Controllers\MasterCategoryController;
+use App\Http\Controllers\MasterMenuController;
+use App\Http\Controllers\MasterCustomerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,6 +18,9 @@ use App\Http\Controllers\MasterBannerController;
 */
 
 Route::resource('master_banner', MasterBannerController::class);
+Route::resource('master_category', MasterCategoryController::class);
+Route::resource('master_menu', MasterMenuController::class);
+Route::resource('master_customer', MasterCustomerController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
