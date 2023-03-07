@@ -15,4 +15,10 @@ class masterBanner extends Model
         'image',
         'title'
     ];
+    
+    protected $appends = ['url_image'];
+    public function getUrlImageAttribute($image)
+    {
+        return url('/').'/images/banner/'.$this->image;
+    }
 }

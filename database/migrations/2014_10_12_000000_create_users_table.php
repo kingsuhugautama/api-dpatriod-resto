@@ -15,9 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone',100);
+            $table->integer('gender');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->string('image',100);
+            $table->integer('jenis_user');
+            $table->string('verifikasi_email',100);
+            $table->boolean('is_verifikasi_email');
+            $table->integer('id_position')->constrained('master_position')->nullable();
             $table->timestamps();
         });
     }

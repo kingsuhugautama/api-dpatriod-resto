@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('master_employe', function (Blueprint $table) {
             $table->id('id_employe');
             $table->string('name',100);
-            $table->integer('id_position')->constrained('master_position');;
+            $table->integer('id_position')->constrained('master_position');
             $table->integer('gender');
             $table->string('image',100);
             $table->string('email',100);

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\masterBanner;
 use Illuminate\Http\Request;
-
+use File;
 class MasterBannerController extends Controller
 {
     /**
@@ -37,7 +37,16 @@ class MasterBannerController extends Controller
     {
         //
         try{
-            
+            $upload_image_name = '';
+            if($request->file('file')){
+                $upload_image = $request->file('file');
+                $upload_image_name = rand().'-banner.'.$upload_image->getClientOriginalExtension();
+                $upload_image->move(public_path('images/banner/'), $upload_image_name);
+                $insert['image'] = $upload_image_name;
+                $request->request->add(['image'=>$upload_image_name]);
+            }else{
+                $request->request->add(['image'=>'']);
+            }
             $data = masterBanner::create($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
@@ -73,7 +82,7 @@ class MasterBannerController extends Controller
     public function update(Request $request, masterBanner $masterBanner)
     {
         //
-        try{   
+        try{
             $data = $masterBanner->update($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
