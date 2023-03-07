@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('master_type_payment', function (Blueprint $table) {
             $table->id('id_type_payment');
-            $table->uuid('uuid');
             $table->string('name_payment');
             $table->timestamps();
         });

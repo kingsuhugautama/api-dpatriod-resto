@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('master_banner', function (Blueprint $table) {
-            $table->id('id_banner');
+        Schema::create('master_employe', function (Blueprint $table) {
+            $table->id('id_employe');
+            $table->string('name',100);
+            $table->integer('id_position')->constrained('master_position');;
+            $table->integer('gender');
             $table->string('image',100);
-            $table->string('title',100);
+            $table->string('email',100);
+            $table->string('phone',100);
+            $table->string('password',100);
             $table->timestamps();
         });
     }
@@ -24,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('master_banner');
+        Schema::dropIfExists('master_employe');
     }
 };

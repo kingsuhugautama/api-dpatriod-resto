@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('master_position', function (Blueprint $table) {
             $table->id('id_position');
-            $table->uuid('uid');
             $table->string('name_position');
             $table->timestamps();
         });

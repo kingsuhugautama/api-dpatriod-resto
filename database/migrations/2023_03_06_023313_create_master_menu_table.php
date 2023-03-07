@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('master_menu', function (Blueprint $table) {
             $table->id('id_menu');
-            $table->uuid('uuid');
             $table->integer('id_category')->constrained('master_category');
             $table->string('name',100);
             $table->double('price',12,2);

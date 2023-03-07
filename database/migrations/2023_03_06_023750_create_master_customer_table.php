@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('email_customer',50);
             $table->string('phone_customer',50);
             $table->integer('gender_customer');
-            $table->String('image',100);
+            $table->string('password',100);
+            $table->string('image',100);
             $table->timestamps();
         });
     }

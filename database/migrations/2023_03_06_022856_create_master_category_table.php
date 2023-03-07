@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('master_category', function (Blueprint $table) {
             $table->id('id_category');
-            $table->uuid('uuid');
             $table->string('name_category',12,2);
             $table->boolean('delete')->default(false);
             $table->timestamps();
