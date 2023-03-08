@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('verifikasi_email',100);
             $table->boolean('is_verifikasi_email');
             $table->integer('id_position')->constrained('master_position')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
