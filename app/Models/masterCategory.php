@@ -9,9 +9,10 @@ class masterCategory extends Model
 {
     use HasFactory;
     protected $table="master_category";
-    protected $primaryKey = 'id_category';
+    // 
     protected $fillable = [
         'name_category'
     ];
+    protected $primaryKey = 'id_category';
 }
 ?>
