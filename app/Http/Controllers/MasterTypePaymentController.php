@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\masterCustomer;
+use App\Models\masterTypePayment;
 use Illuminate\Http\Request;
 
-class MasterCustomerController extends Controller
+class MasterTypePaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class MasterCustomerController extends Controller
     public function index()
     {
         try {
-            $data = masterCustomer::all();
+            $data = masterTypePayment::all();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -25,7 +25,7 @@ class MasterCustomerController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -34,7 +34,7 @@ class MasterCustomerController extends Controller
     public function store(Request $request)
     {
         try{
-            $data = masterCustomer::create($request->all());
+            $data = masterTypePayment::create($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -44,10 +44,10 @@ class MasterCustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id_customer)
+    public function show($id_type_payment)
     {
         try{
-            $data = masterCustomer::find($id_customer);
+            $data = masterTypePayment::find($id_type_payment);
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -57,36 +57,26 @@ class MasterCustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(masterCustomer $masterCustomer)
+    public function edit(masterTypePayment $masterTypePayment)
     {
-        try{   
-            $data = $masterCustomer->update($request->all());
-            return response()->json(['status'=>true,'data'=>$data]);
-        } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
-        }
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, masterTypePayment $masterTypePayment)
     {
-        try{
-            $data = $masterCustomer->delete();
-            return response()->json(['status'=>true,'data'=>$data]);
-        } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
-        }
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(masterCustomer $masterCustomer)
+    public function destroy(masterTypePayment $masterTypePayment)
     {
         try{
-            $data = $masterCustomer->delete();
+            $data = $masterTypePayment->delete();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);

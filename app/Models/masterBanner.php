@@ -11,7 +11,6 @@ class masterBanner extends Model
     protected $table="master_banner";
     protected $primaryKey = 'id_banner';
     protected $fillable =   [
-        'uuid',
         'image',
         'title'
     ];

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\masterCustomer;
+use App\Models\masterPosition;
 use Illuminate\Http\Request;
 
-class MasterCustomerController extends Controller
+class MasterPositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class MasterCustomerController extends Controller
     public function index()
     {
         try {
-            $data = masterCustomer::all();
+            $data = masterPosition::all();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -34,7 +34,7 @@ class MasterCustomerController extends Controller
     public function store(Request $request)
     {
         try{
-            $data = masterCustomer::create($request->all());
+            $data = masterPosition::create($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -44,10 +44,10 @@ class MasterCustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id_customer)
+    public function show($id_position)
     {
         try{
-            $data = masterCustomer::find($id_customer);
+            $data = masterPosition::find($id_position);
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -57,39 +57,24 @@ class MasterCustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(masterCustomer $masterCustomer)
+    public function edit(masterPosition $masterPosition)
     {
-        try{   
-            $data = $masterCustomer->update($request->all());
-            return response()->json(['status'=>true,'data'=>$data]);
-        } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
-        }
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, masterPosition $masterPosition)
     {
-        try{
-            $data = $masterCustomer->delete();
-            return response()->json(['status'=>true,'data'=>$data]);
-        } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
-        }
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(masterCustomer $masterCustomer)
+    public function destroy(masterPosition $masterPosition)
     {
-        try{
-            $data = $masterCustomer->delete();
-            return response()->json(['status'=>true,'data'=>$data]);
-        } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
-        }
+        //
     }
 }
