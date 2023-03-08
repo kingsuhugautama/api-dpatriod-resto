@@ -44,10 +44,10 @@ class MasterCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(masterCategory $masterCategory)
+    public function show($id)
     {
         try{
-            $data = $masterCategory->first();
+            $data = masterCategory::find($id);
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -65,9 +65,10 @@ class MasterCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, masterCategory $masterCategory)
+    public function update(Request $request,$id)
     {
-        try{   
+        try{
+            $masterCategory = masterCategory::find($id);
             $data = $masterCategory->update($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
@@ -78,10 +79,10 @@ class MasterCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(masterCategory $masterCategory)
+    public function destroy($id)
     {
         try{
-            $data = $masterCategory->delete();
+            $data = masterCategory::find($id)->delete();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);

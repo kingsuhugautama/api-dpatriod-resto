@@ -57,11 +57,10 @@ class MasterBannerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(masterBanner $masterBanner)
+    public function show($id)
     {
-        //
         try{
-            $data = $masterBanner->first();
+            $data = masterBanner::find($id);
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -79,11 +78,20 @@ class MasterBannerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, masterBanner $masterBanner)
+    public function update(Request $request,$id)
     {
         //
-        try{
-            $data = $masterBanner->update($request->all());
+        try{   
+            $data = masterBanner::find($id);
+            if($request->file('file')){
+                unlink(public_path('images/banner/'.$data->image));
+                $upload_image = $request->file('file');
+                $upload_image_name = rand().'-banner.'.$upload_image->getClientOriginalExtension();
+                $upload_image->move(public_path('images/banner/'), $upload_image_name);
+                $insert['image'] = $upload_image_name;
+                $request->request->add(['image'=>$upload_image_name]);
+            }            
+            $data->update($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -93,11 +101,11 @@ class MasterBannerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(masterBanner $masterBanner)
+    public function destroy($id)
     {
         //
         try{
-            $data = $masterBanner->delete();
+            $data = masterBanner::find($id)->delete();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
