@@ -20,5 +20,11 @@ class masterMenu extends Model
     public function category(){
         return $this->belongsTo(masterCategory::class, 'id_category');
     }
+
+    protected $appends = ['url_image'];
+    public function getUrlImageAttribute($image)
+    {
+        return url('/').'/images/menu/'.$this->image;
+    }
 }
 ?>

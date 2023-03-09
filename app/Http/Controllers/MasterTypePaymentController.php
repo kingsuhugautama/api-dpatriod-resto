@@ -65,9 +65,14 @@ class MasterTypePaymentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, masterTypePayment $masterTypePayment)
+    public function update(Request $request, $id)
     {
-        //
+        try{   
+            $data = masterTypePayment::find($id)->update($request->all());
+            return response()->json(['status'=>true,'data'=>$data]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        }
     }
 
     /**

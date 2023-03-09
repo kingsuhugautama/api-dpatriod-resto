@@ -34,9 +34,21 @@ class MasterCustomerController extends Controller
     public function store(Request $request)
     {
         try{
+            $upload_image_name = '';
+            if($request->file('file')){
+                $upload_image = $request->file('file');
+                $upload_image_name = rand().'-customer.'.$upload_image->getClientOriginalExtension();
+                $upload_image->move(public_path('images/customer/'), $upload_image_name);
+                $insert['image'] = $upload_image_name;
+                $request->request->add(['image'=>$upload_image_name]);
+            }else{
+                $request->request->add(	['image'=>'']);
+            }
             $data = masterCustomer::create($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+            } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
@@ -70,13 +82,22 @@ class MasterCustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        try{
-            $data = $masterCustomer->delete();
+        try{   
+            $data = masterCustomer::find($id);
+            if($request->file('file')){
+                unlink(public_path('images/customer/'.$data->image));
+                $upload_image = $request->file('file');
+                $upload_image_name = rand().'-customer.'.$upload_image->getClientOriginalExtension();
+                $upload_image->move(public_path('images/customer/'), $upload_image_name);
+                $insert['image'] = $upload_image_name;
+                $request->request->add(['image'=>$upload_image_name]);
+            }            
+            $data->update($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+                return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
 

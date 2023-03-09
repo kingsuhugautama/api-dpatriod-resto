@@ -67,7 +67,12 @@ class MasterEmployeController extends Controller
      */
     public function update(Request $request, masterEmploye $masterEmploye)
     {
-        //
+        try{   
+            $data = model::find($id)->update($request->all());
+            return response()->json(['status'=>true,'data'=>$data]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        }
     }
 
     /**

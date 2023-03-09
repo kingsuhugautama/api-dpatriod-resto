@@ -9,6 +9,7 @@ use App\Http\Controllers\MasterMenuController;
 use App\Http\Controllers\MasterCustomerController;
 use App\Http\Controllers\MasterPositionController;
 use App\Http\Controllers\MasterEmployeController;
+use App\Http\Controllers\TransOrderController;
 use App\Http\Controllers\UsersController;
 
 /*
@@ -29,6 +30,10 @@ Route::resource('master_customer', MasterCustomerController::class);
 Route::resource('master_type_payment', MasterTypePaymentController::class);
 Route::resource('master_position', MasterPositionController::class);
 Route::resource('master_employe', MasterEmployeController::class);
+
+Route::post('order/save', [TransOrderController::class, 'order']);
+Route::put('order/update_status_detail_order/{id}', [TransOrderController::class, 'update']);
+Route::get('order/list_pesanan_detail/{status}', [TransOrderController::class, 'detail']);
 
 Route::post('register', [UsersController::class, 'register']);
 Route::post('login', [UsersController::class, 'login']);

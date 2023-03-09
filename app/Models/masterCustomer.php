@@ -11,7 +11,6 @@ class masterCustomer extends Model
     protected $table="master_customer";
     protected $primaryKey = 'id_customer';
     protected $fillable = [
-        'uuid',
         'name_customer',
         'email_customer',
         'phone_customer',
@@ -19,4 +18,10 @@ class masterCustomer extends Model
         'password',
         'image'
     ];
+
+    protected $appends = ['url_image'];
+    public function getUrlImageAttribute($image)
+    {
+        return url('/').'/images/customer/'.$this->image;
+    }
 }
