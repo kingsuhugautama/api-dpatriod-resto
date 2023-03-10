@@ -34,6 +34,16 @@ class MasterEmployeController extends Controller
     public function store(Request $request)
     {
         try{
+            $upload_image_name = '';
+            if($request->file('file')){
+                $upload_image = $request->file('file');
+                $upload_image_name = rand().'-employe.'.$upload_image->getClientOriginalExtension();
+                $upload_image->move(public_path('images/employe/'), $upload_image_name);
+                $insert['image'] = $upload_image_name;
+                $request->request->add(['image'=>$upload_image_name]);
+            }else{
+                $request->request->add(['image'=>'']);
+            }
             $data = masterEmploye::create($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
@@ -65,10 +75,19 @@ class MasterEmployeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, masterEmploye $masterEmploye)
+    public function update(Request $request, $id)
     {
         try{   
-            $data = model::find($id)->update($request->all());
+            $data = masterEmploye::find($id);
+            if($request->file('file')){
+                unlink(public_path('images/employe/'.$data->image));
+                $upload_image = $request->file('file');
+                $upload_image_name = rand().'-employe.'.$upload_image->getClientOriginalExtension();
+                $upload_image->move(public_path('images/banner/'), $upload_image_name);
+                $insert['image'] = $upload_image_name;
+                $request->request->add(['image'=>$upload_image_name]);
+            }            
+            $data->update($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);

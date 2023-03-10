@@ -23,4 +23,9 @@ class masterEmploye extends Model
     public function position(){
         return $this->belongsTo(masterPosition::class, 'id_position');
     }
+    protected $appends = ['url_image'];
+    public function getUrlImageAttribute($image)
+    {
+        return url('/').'/images/banner/'.$this->image;
+    }
 }
