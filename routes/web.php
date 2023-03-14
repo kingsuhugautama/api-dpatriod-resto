@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\UsersController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/verifikasi/{token}', function () {
-    return 'verifikasi';
-});
+Route::get('/verifikasi/{token_email}', [UsersController::class, 'verifikasiEmail'] )->name('verifikasi.email');

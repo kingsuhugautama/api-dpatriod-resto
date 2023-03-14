@@ -81,4 +81,14 @@ class UsersController extends Controller
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
+    public function verifikasiEmail($token_email)
+    {
+        $user = User::where('verifikasi_email', $token_email)->first();
+        $user->is_verifikasi_email = 1;
+        $user->save();
+
+        auth('web')->login($user);
+        request()->session()->regenerate();
+        return view('email.verifikasi');
+    }
 }
