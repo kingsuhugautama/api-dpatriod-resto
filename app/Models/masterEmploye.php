@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class masterEmploye extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasFactory, Notifiable;
     protected $table="master_employe";
     protected $primaryKey = 'id_employe';
     protected $fillable = [
