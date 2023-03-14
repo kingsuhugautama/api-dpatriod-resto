@@ -30,6 +30,7 @@ Route::resource('master_customer', MasterCustomerController::class);
 Route::resource('master_type_payment', MasterTypePaymentController::class);
 Route::resource('master_position', MasterPositionController::class);
 Route::resource('master_employe', MasterEmployeController::class);
+Route::post('master_employe/login', [MasterEmployeController::class,'login']);
 
 Route::post('order/save', [TransOrderController::class, 'order']);
 Route::put('order/update_status_detail_order/{id}', [TransOrderController::class, 'update']);

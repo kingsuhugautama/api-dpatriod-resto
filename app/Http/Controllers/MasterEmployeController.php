@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\masterEmploye;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class MasterEmployeController extends Controller
 {
@@ -44,7 +45,9 @@ class MasterEmployeController extends Controller
             }else{
                 $request->request->add(['image'=>'']);
             }
-            $data = masterEmploye::create($request->all());
+            $param = $request->all();
+            $param['password'] =bcrypt($param['password']);
+            $data = masterEmploye::create($param);
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -100,5 +103,25 @@ class MasterEmployeController extends Controller
     public function destroy(masterEmploye $masterEmploye)
     {
         //
+    }
+    
+    public function login(Request $request){
+        // $validated = _validate($request->all(), ['email' => 'required','password'=>'required']);
+        try {
+            $user = masterEmploye::where('email', $request['email'])->first();
+            if (!$user || !Hash::check($request['password'], $user->password)) {
+                throw new \Exception('email and password not mach.');
+            }
+            // if (!$user->is_active) {
+            //     throw new \Exception('User is not active.');
+            // }
+            auth('web')->login($user);
+            request()->session()->regenerate();
+            return array_merge($user->toArray(), [
+                'token' => $user->createToken(config('app.name'))->plainTextToken
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        }
     }
 }

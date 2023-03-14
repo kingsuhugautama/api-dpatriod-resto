@@ -52,22 +52,22 @@ class UsersController extends Controller
     }
     
     public function login(Request $request){
-        $validated = _validate($request->all(), ['email' => 'required','password'=>'required']);
+        // $validated = _validate($request->all(), ['email' => 'required','password'=>'required']);
         try {
-            $user = User::where('email', $validated['email'])->first();
-            if (!$user || !Hash::check($validated['password'], $user->password)) {
-                throw new ('email and password not mach.');
+            $user = User::where('email', $request['email'])->first();
+            if (!$user || !Hash::check($request['password'], $user->password)) {
+                throw new \Exception('email and password not mach.');
             }
             if (!$user->is_active) {
-                throw new ('User is not active.');
+                throw new \Exception('User is not active.');
             }
             auth('web')->login($user);
             request()->session()->regenerate();
             return array_merge($user->toArray(), [
                 'token' => $user->createToken(config('app.name'))->plainTextToken
             ]);
-        } catch (\Throwable $th) {
-            throw $th;
+        } catch (\Exception $ex) {     
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
     
