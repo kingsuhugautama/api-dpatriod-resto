@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('image',100);
+            $table->string('image',100)->nullable();
             $table->integer('jenis_user');
             $table->string('verifikasi_email',100);
             $table->boolean('is_verifikasi_email');
