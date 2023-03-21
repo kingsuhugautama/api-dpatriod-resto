@@ -1,9 +1,6 @@
 version: 2.1
 jobs:
   build-development:
-    machine:
-      image: ubuntu-2004:current
-    resource_class: xlarge
     steps:
       - add_ssh_keys:
           fingerprints:
