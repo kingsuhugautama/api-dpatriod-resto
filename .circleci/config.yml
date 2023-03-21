@@ -4,8 +4,8 @@ jobs:
     docker:
       - image: cimg/base:2022.5
           auth:
-            username: $DOCKER_USER
-            password: $DOCKER_PASS
+            username: "$DOCKER_USER"
+            password: "$DOCKER_PASS"
     steps:
       - add_ssh_keys:
           fingerprints:
