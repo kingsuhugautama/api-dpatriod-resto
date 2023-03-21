@@ -14,8 +14,8 @@ class masterEmploye extends Authenticatable
     protected $table="master_employe";
     protected $primaryKey = 'id_employe';
     protected $fillable = [
-        'id_position',
-        'name',
+            'id_position',
+            'name',
             'gender',
             'image',
             'email',

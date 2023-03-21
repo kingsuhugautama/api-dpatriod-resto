@@ -1,0 +1,23 @@
+version: 2.1
+jobs:
+  build-development:
+    machine:
+      image: ubuntu-2004:current
+    resource_class: xlarge
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - 'ff:78:f1:c9:e9:45:cc:c8:ca:45:3b:3b:fb:74:5a:df'
+      - run:
+          name: Deploy app to server development
+          command: |
+            ssh -o StrictHostKeyChecking=no root@128.199.75.235 "cd /var/www/html/api-dpatriod-resto && ./deploy.sh"
+workflow :
+  basic-workflow:
+    jobs:
+      - build-development:
+          filters:
+            branches:
+              only:
+                - main
