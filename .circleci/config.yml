@@ -1,8 +1,11 @@
 version: 2.1
 jobs:
   build-development:
-    machine:
-      image: alpine:latest
+    docker:
+      image: cimg/base:2022.5
+    auth:
+      username: $DOCKER_USER
+      password: $DOCKER_PASS
     steps:
       - add_ssh_keys:
           fingerprints:
