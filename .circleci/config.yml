@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build-development:
     docker:
-      - image: cimg/base:2022.5
+      - image: alpine-3.17:current
         auth:
           username: "$DOCKER_USER"
           password: "$DOCKER_PASS"
