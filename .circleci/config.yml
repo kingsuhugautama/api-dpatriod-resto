@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build-development:
     docker:
-      - image: cimg/node:14.18-alpine
+      - image: cimg/node:14.13.0
     steps:
       - add_ssh_keys:
           fingerprints:
