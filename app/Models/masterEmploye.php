@@ -27,6 +27,7 @@ class masterEmploye extends Authenticatable
         return $this->belongsTo(masterPosition::class, 'id_position');
     }
     protected $appends = ['url_image'];
+    protected $hidden = ['password'];
     public function getUrlImageAttribute($image)
     {
         return url('/').'/images/banner/'.$this->image;
