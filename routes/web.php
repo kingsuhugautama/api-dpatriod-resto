@@ -16,3 +16,6 @@ use App\Http\Controllers\UsersController;
 */
 
 Route::get('/verifikasi/{token_email}', [UsersController::class, 'verifikasiEmail'] )->name('verifikasi.email');
+Route::get('test', function() {
+    return json_encode(['hore world']);
+});
