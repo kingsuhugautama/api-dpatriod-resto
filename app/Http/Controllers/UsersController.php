@@ -61,6 +61,9 @@ class UsersController extends Controller
             if (!$user->is_active) {
                 throw new \Exception('User is not active.');
             }
+            if($user->is_verifikasi_email==0){
+                throw new \Exception('Email is not verified.');
+            }
             auth('web')->login($user);
             request()->session()->regenerate();
             $success = array_merge($user->toArray(), [
