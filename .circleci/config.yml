@@ -8,11 +8,11 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - 'f6c:20:53:fc:7a:da:9f:5f:72:f2:06:a5:d1:a8:41:c0'
+            - '40:08:d4:f0:aa:d2:98:24:70:69:0e:6c:2c:d7:9a:42'
       - run:
           name: Deploy app to server development
           command: |
-            ssh -o StrictHostKeyChecking=no admindevops@128.199.75.235 "cd /var/www/html/api-dpatriod-resto && ./deploy.sh"
+            ssh -o StrictHostKeyChecking=no root@128.199.75.235 "cd /var/www/html/api-dpatriod-resto && ./deploy.sh"
 workflows :
   basic-workflow:
     jobs:
