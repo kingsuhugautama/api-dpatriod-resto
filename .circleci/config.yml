@@ -5,7 +5,6 @@ jobs:
       image: ubuntu-2004:current
     resource_class: xlarge
     steps:
-      - checkout
       - add_ssh_keys:
           fingerprints:
             - '40:08:d4:f0:aa:d2:98:24:70:69:0e:6c:2c:d7:9a:42'
