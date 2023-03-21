@@ -99,7 +99,7 @@ class MasterBannerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Removesadasdad the specified resource from storage.
      */
     public function destroy($id)
     {

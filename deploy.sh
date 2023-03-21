@@ -1,3 +1,3 @@
-git pull
+sudo git pull
 php artisan optimize:clear
-composer update
+sudo composer update
