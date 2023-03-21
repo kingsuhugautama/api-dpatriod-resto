@@ -13,7 +13,7 @@ jobs:
           name: Deploy app to server development
           command: |
             ssh -o StrictHostKeyChecking=no root@128.199.75.235 "cd /var/www/html/api-dpatriod-resto && ./deploy.sh"
-workflow :
+workflows :
   basic-workflow:
     jobs:
       - build-development:
