@@ -117,11 +117,12 @@ class MasterEmployeController extends Controller
             // }
             auth('web')->login($user);
             request()->session()->regenerate();
-            return array_merge($user->toArray(), [
+            $success = array_merge($user->toArray(), [
                 'token' => $user->createToken(config('app.name'))->plainTextToken
             ]);
+            return response()->json(['success'=>true,'data'=>$success]);
         } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+            return response()->json(['success'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
 }

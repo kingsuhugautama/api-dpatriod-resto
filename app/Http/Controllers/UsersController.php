@@ -63,11 +63,12 @@ class UsersController extends Controller
             }
             auth('web')->login($user);
             request()->session()->regenerate();
-            return array_merge($user->toArray(), [
+            $success = array_merge($user->toArray(), [
                 'token' => $user->createToken(config('app.name'))->plainTextToken
             ]);
+            return response()->json(['success'=>true,'data'=>$success]);
         } catch (\Exception $ex) {     
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+            return response()->json(['success'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
     
@@ -76,7 +77,7 @@ class UsersController extends Controller
             Auth::guard('web')->logout();
             request()->session()->invalidate();
             request()->session()->regenerateToken();
-            return response()->json(['status'=>true,'data'=>$hasil]);
+            return response()->json(['status'=>true,'data'=>[]]);
         } catch (\Exception $ex) {                    
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
@@ -86,7 +87,6 @@ class UsersController extends Controller
         $user = User::where('verifikasi_email', $token_email)->first();
         $user->is_verifikasi_email = 1;
         $user->save();
-
         auth('web')->login($user);
         request()->session()->regenerate();
         return view('email.verifikasi');

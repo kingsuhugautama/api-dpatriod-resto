@@ -69,7 +69,7 @@ class MasterCustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(masterCustomer $masterCustomer)
+    public function edit(Request $request, masterCustomer $masterCustomer )
     {
         try{   
             $data = $masterCustomer->update($request->all());
