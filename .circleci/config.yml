@@ -8,7 +8,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - 'ff:78:f1:c9:e9:45:cc:c8:ca:45:3b:3b:fb:74:5a:df'
+            - 'f6c:20:53:fc:7a:da:9f:5f:72:f2:06:a5:d1:a8:41:c0'
       - run:
           name: Deploy app to server development
           command: |
