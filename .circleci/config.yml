@@ -3,9 +3,9 @@ jobs:
   build-development:
     docker:
       - image: cimg/base:2022.5
-         auth:
-            username: "$DOCKER_USER"
-            password: "$DOCKER_PASS"
+        auth:
+          username: "$DOCKER_USER"
+          password: "$DOCKER_PASS"
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -14,7 +14,7 @@ jobs:
           name: Deploy app to server development
           command: |
             ssh -o StrictHostKeyChecking=no root@128.199.75.235 "cd /var/www/html/api-dpatriod-resto && ./deploy.sh"
-workflows :
+workflows:
   basic-workflow:
     jobs:
       - build-development:
