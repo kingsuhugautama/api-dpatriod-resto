@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class masterEmploye extends Authenticatable
 {
-    use HasFactory, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasFactory, Notifiable;
     protected $table="master_employe";
     protected $primaryKey = 'id_employe';
     protected $fillable = [
