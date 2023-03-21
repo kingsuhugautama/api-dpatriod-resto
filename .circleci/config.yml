@@ -2,10 +2,8 @@ version: 2.1
 jobs:
   build-development:
     docker:
-      - image: alpine-3.17:current
-        auth:
-          username: "$DOCKER_USER"
-          password: "$DOCKER_PASS"
+      image: ubuntu-2004:current
+    resource_class: xlarge
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -14,7 +12,7 @@ jobs:
           name: Deploy app to server development
           command: |
             ssh -o StrictHostKeyChecking=no root@128.199.75.235 "cd /var/www/html/api-dpatriod-resto && ./deploy.sh"
-workflows:
+workflows :
   basic-workflow:
     jobs:
       - build-development:
