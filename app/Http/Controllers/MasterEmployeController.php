@@ -86,7 +86,7 @@ class MasterEmployeController extends Controller
                 unlink(public_path('images/employe/'.$data->image));
                 $upload_image = $request->file('file');
                 $upload_image_name = rand().'-employe.'.$upload_image->getClientOriginalExtension();
-                $upload_image->move(public_path('images/banner/'), $upload_image_name);
+                $upload_image->move(public_path('images/employe/'), $upload_image_name);
                 $insert['image'] = $upload_image_name;
                 $request->request->add(['image'=>$upload_image_name]);
             }            
