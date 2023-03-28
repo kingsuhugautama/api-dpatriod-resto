@@ -74,10 +74,19 @@ class MasterMenuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, masterMenu $masterMenu)
+    public function update(Request $request, $id)
     {
         try{   
-            $data = $masterMenu->update($request->all());
+            $data = masterMenu::find($id);
+            if($request->file('file')){
+                unlink(public_path('images/menu/'.$data->image));
+                $upload_image = $request->file('file');
+                $upload_image_name = rand().'-menu.'.$upload_image->getClientOriginalExtension();
+                $upload_image->move(public_path('images/menu/'), $upload_image_name);
+                $insert['image'] = $upload_image_name;
+                $request->request->add(['image'=>$upload_image_name]);
+            }            
+            $data->update($request->all());
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);

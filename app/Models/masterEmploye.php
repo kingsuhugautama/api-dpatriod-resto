@@ -30,6 +30,6 @@ class masterEmploye extends Authenticatable
     protected $hidden = ['password'];
     public function getUrlImageAttribute($image)
     {
-        return url('/').'/images/banner/'.$this->image;
+        return url('/').'/images/employe/'.$this->image;
     }
 }
