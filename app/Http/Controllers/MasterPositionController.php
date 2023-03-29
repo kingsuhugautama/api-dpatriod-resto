@@ -78,8 +78,14 @@ class MasterPositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(masterPosition $masterPosition)
+    public function destroy($id)
     {
-        //
+        try{   
+            $data = masterPosition::find($id);
+            $data->delete();
+            return response()->json(['status'=>true,'data'=>$data]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        }
     }
 }

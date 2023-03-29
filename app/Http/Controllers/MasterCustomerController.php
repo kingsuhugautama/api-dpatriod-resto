@@ -104,10 +104,11 @@ class MasterCustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(masterCustomer $masterCustomer)
+    public function destroy($id)
     {
         try{
-            $data = $masterCustomer->delete();
+            $data = masterCustomer::find($id);
+            $data->delete();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);

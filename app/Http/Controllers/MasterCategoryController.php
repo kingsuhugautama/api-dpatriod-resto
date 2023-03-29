@@ -82,7 +82,8 @@ class MasterCategoryController extends Controller
     public function destroy($id)
     {
         try{
-            $data = masterCategory::find($id)->delete();
+            $data = masterCategory::find($id);
+            $data->delete();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);

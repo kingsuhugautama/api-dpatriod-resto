@@ -24,11 +24,21 @@ use App\Http\Controllers\UsersController;
 */
 
 Route::resource('master_banner', MasterBannerController::class);
+
 Route::resource('master_category', MasterCategoryController::class);
+Route::delete('master_category/delete/{id}', [MasterCategoryController::class,'destroy']);
+
 Route::resource('master_menu', MasterMenuController::class);
+Route::delete('master_menu/delete/{id}', [MasterMenuController::class,'destroy']);
+
 Route::resource('master_customer', MasterCustomerController::class);
+Route::delete('master_customer/delete/{id}', [MasterCustomerController::class,'destroy']);
+
 Route::resource('master_type_payment', MasterTypePaymentController::class);
+
 Route::resource('master_position', MasterPositionController::class);
+Route::delete('master_position/delete/{id}', [MasterPositionController::class,'destroy']);
+
 Route::resource('master_employe', MasterEmployeController::class);
 Route::post('master_employe/login', [MasterEmployeController::class,'login']);
 
