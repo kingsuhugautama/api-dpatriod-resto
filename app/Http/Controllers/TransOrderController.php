@@ -56,7 +56,8 @@ class TransOrderController extends Controller
                     'qty' => $item['qty'],
                     'total_price' => $item['total_price'],
                     'note' => $item['note'],
-                    'status' => $item['status']
+                    'status' => $item['status'],
+                    'is_paid' => $request->input('is_paid')
                 ]);
             }
             DB::commit();
