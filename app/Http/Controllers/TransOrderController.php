@@ -15,7 +15,12 @@ class TransOrderController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $data = transOrder::all();
+            return response()->json(['status'=>true,'data'=>$data]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        }
     }
 
     /**

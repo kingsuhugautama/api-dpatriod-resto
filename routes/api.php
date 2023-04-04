@@ -45,6 +45,8 @@ Route::post('master_employe/login', [MasterEmployeController::class,'login']);
 Route::post('order/save', [TransOrderController::class, 'order']);
 Route::put('order/update_status_detail_order/{id}', [TransOrderController::class, 'update']);
 Route::get('order/list_pesanan_detail/{status}', [TransOrderController::class, 'detail']);
+Route::get('order/list_pesanan', [TransOrderController::class, 'index']);
+
 
 Route::post('register', [UsersController::class, 'register']);
 Route::post('login', [UsersController::class, 'login']);
