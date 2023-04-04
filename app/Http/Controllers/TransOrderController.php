@@ -16,7 +16,7 @@ class TransOrderController extends Controller
     public function index()
     {
         try {
-            $data = transOrder::all();
+            $data = transOrder::with('transOrderDetail.master_menu')->get();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
