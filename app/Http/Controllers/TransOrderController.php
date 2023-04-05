@@ -16,7 +16,9 @@ class TransOrderController extends Controller
     public function index()
     {
         try {
-            $data = transOrder::with('transOrderDetail.master_menu')->get();
+            $data = transOrder::with('transOrderDetail.master_menu')
+            ->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()])
+            ->get();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -94,7 +96,9 @@ class TransOrderController extends Controller
     public function detail(Request $request, $status)
     {
         try{
-            $detail = transOrderDetail::where('status', $status)->with('master_menu','trans_order.master_customer')->get();
+            $detail = transOrderDetail::where('status', $status)
+            ->with('master_menu','trans_order.master_customer')
+            ->get();
             return response()->json(['status'=>true,'data'=>$detail]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
