@@ -30,7 +30,7 @@ class transOrder extends Model
         return $this->hasMany(transOrderDetail::class, 'id_order');
     }
     public function master_customer(){
-        return $this->hasMany(masterCustomer::class, 'id_customer');
+        return $this->belongsTo(masterCustomer::class, 'id_customer');
     }
 
 }

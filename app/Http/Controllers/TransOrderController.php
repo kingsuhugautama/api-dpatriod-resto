@@ -94,7 +94,7 @@ class TransOrderController extends Controller
     public function detail(Request $request, $status)
     {
         try{
-            $detail = transOrderDetail::where('status', $status)->with('master_menu', 'master_customer:id_customer,name_customer')->get();
+            $detail = transOrderDetail::where('status', $status)->with('master_menu','trans_order.master_customer')->get();
             return response()->json(['status'=>true,'data'=>$detail]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
