@@ -29,5 +29,9 @@ class masterMenu extends Model
     {
         return url('/').'/images/menu/'.$this->image;
     }
+
+    public function transOrderDetail(){
+        return $this->belongsTo(transOrderDetail::class, 'id_order');
+    }
 }
 ?>

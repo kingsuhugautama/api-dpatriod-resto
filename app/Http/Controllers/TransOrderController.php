@@ -48,7 +48,7 @@ class TransOrderController extends Controller
             $order->price_user = $request->input('price_user');
             $order->return_price_user = $request->input('return_price_user');
             $order->discount = $request->input('discount');
-            $order->is_paid = $request->input('is_paid');
+            $order->is_paid = false;
 
             $order->save();
 
@@ -94,7 +94,7 @@ class TransOrderController extends Controller
     public function detail(Request $request, $status)
     {
         try{
-            $detail = transOrderDetail::where('status', $status)->get();
+            $detail = transOrderDetail::where('status', $status)->with('master_menu', 'master_customer:id_customer,name_customer')->get();
             return response()->json(['status'=>true,'data'=>$detail]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);

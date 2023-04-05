@@ -19,7 +19,8 @@ class transOrder extends Model
         'id_type_payment',
         'price_user',
         'return_price_user',
-        'discount'
+        'discount',
+        'is_paid'
     ];
 
     public function type_payment(){
@@ -28,4 +29,8 @@ class transOrder extends Model
     public function transOrderDetail(){
         return $this->hasMany(transOrderDetail::class, 'id_order');
     }
+    public function master_customer(){
+        return $this->hasMany(masterCustomer::class, 'id_customer');
+    }
+
 }

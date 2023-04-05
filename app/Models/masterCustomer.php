@@ -27,4 +27,10 @@ class masterCustomer extends Model
     {
         return url('/').'/images/customer/'.$this->image;
     }
+    public function trans_order(){
+        return $this->belongsTo(transOrder::class, 'id_order');
+    }
+    public function transOrderDetail(){
+        return $this->hasMany(transOrderDetail::class, 'id_order');
+    }
 }
