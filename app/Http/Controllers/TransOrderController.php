@@ -110,6 +110,7 @@ class TransOrderController extends Controller
                     "id_status" => $i,
                     "data_order" => transOrderDetail::where('status', $i)
                     ->with('master_menu', 'trans_order.master_customer')
+                    ->whereDate('created_at', now())
                     ->get()
                     ];
                 $detail[] = $a;
