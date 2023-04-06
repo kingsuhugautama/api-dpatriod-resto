@@ -93,12 +93,27 @@ class TransOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function detail(Request $request, $status)
+    public function detail(Request $request)
     {
+        // try{
+        //     $detail = transOrderDetail::where('status', $status)
+        //     ->with('master_menu','trans_order.master_customer')
+        //     ->get();
+        //     return response()->json(['status'=>true,'data'=>$detail]);
+        // } catch (\Exception $ex) {
+        //     return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        // }
         try{
-            $detail = transOrderDetail::where('status', $status)
-            ->with('master_menu','trans_order.master_customer')
-            ->get();
+            $detail = [];
+            for( $i = 1; $i< 7; $i++ ){
+                $a = [
+                    "id_status" => $i,
+                    "data_order" => transOrderDetail::where('status', $i)
+                    ->with('master_menu', 'trans_order.master_customer')
+                    ->get()
+                    ];
+                $detail[] = $a;
+            }
             return response()->json(['status'=>true,'data'=>$detail]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);

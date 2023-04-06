@@ -27,7 +27,4 @@ class transOrderDetail extends Model
     public function master_menu(){
         return $this->belongsTo(masterMenu::class, 'id_menu');
     }
-    public function master_customer(){
-        return $this->hasMany(masterCustomer::class, 'id_customer');
-    }
 }
