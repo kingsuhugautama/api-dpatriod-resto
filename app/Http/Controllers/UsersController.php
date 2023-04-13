@@ -47,7 +47,7 @@ class UsersController extends Controller
             //==================
             return response()->json(['status'=>true,'data'=>$hasil,'send'=>$send]);
         } catch (\Exception $ex) {                    
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
         }
     }
     
