@@ -30,6 +30,8 @@ Route::delete('master_category/delete/{id}', [MasterCategoryController::class,'d
 
 Route::resource('master_menu', MasterMenuController::class);
 Route::delete('master_menu/delete/{id}', [MasterMenuController::class,'destroy']);
+Route::post('master_menu/search', [MasterMenuController::class,'search']);
+Route::post('master_menu/search_menu', [MasterMenuController::class,'searchMenu']);
 
 Route::resource('master_customer', MasterCustomerController::class);
 Route::delete('master_customer/delete/{id}', [MasterCustomerController::class,'destroy']);
@@ -46,6 +48,7 @@ Route::post('order/save', [TransOrderController::class, 'order']);
 Route::put('order/update_status_detail_order/{id}', [TransOrderController::class, 'update']);
 Route::get('order/list_pesanan_detail', [TransOrderController::class, 'detail']);
 Route::get('order/list_pesanan', [TransOrderController::class, 'index']);
+Route::get('order/history/{id_customer}', [TransOrderController::class, 'history']);
 
 
 Route::post('register', [UsersController::class, 'register']);

@@ -106,4 +106,24 @@ class MasterMenuController extends Controller
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
+    public function search(Request $request)
+    {
+        try{
+            $search = $request->search;
+            $data = masterMenu::where('id_category', $search)->get();
+            return response()->json(['status'=>true,'data'=>$data]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        }
+    }
+    public function searchMenu(Request $request)
+    {
+        try{
+            $search = $request->search;
+            $data = masterMenu::where('name', $search ,'%' .$search. '%')->get();
+            return response()->json(['status'=>true,'data'=>$data]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        }
+    }
 }

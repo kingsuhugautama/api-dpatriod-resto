@@ -121,6 +121,16 @@ class TransOrderController extends Controller
         }
     }
 
+    public function history($id_customer)
+    {
+        try {
+            $data = transOrder::where('id_customer', $id_customer)->get();
+            return response()->json(['status'=>true,'data'=>$data]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
