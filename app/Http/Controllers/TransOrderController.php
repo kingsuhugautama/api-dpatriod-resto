@@ -124,7 +124,7 @@ class TransOrderController extends Controller
     public function history($id_customer)
     {
         try {
-            $data = transOrder::where('id_customer', $id_customer)->get();
+            $data = transOrder::where('id_customer', $id_customer)->with('transOrderDetail.master_menu')->get();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -136,6 +136,6 @@ class TransOrderController extends Controller
      */
     public function destroy(transOrder $transOrder)
     {
-        //
+        
     }
 }
