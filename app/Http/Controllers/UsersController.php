@@ -71,7 +71,7 @@ class UsersController extends Controller
             ]);
             return response()->json(['status'=>true,'data'=>$success]);
         } catch (\Exception $ex) {     
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
         }
     }
     
