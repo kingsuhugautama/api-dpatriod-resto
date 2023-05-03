@@ -141,6 +141,26 @@ class TransOrderController extends Controller
         }
     }
 
+    public function update_paid($id_order)
+    {
+        try{
+            $order = transOrder::find($id_order);
+            $order->update([
+                'is_paid' => true
+            ]);
+            $detail = transOrderDetail::where('id_order', $id_order)->get();
+            foreach($detail as $detail){
+                $detail->update([
+                    'is_paid' => true,
+                    'status' => 2
+                ]);
+            }
+            return response()->json(['status'=>true,'data'=>$detail]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
