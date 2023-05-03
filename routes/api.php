@@ -49,6 +49,7 @@ Route::put('order/update_status_detail_order/{id}', [TransOrderController::class
 Route::get('order/list_pesanan_detail', [TransOrderController::class, 'detail']);
 Route::get('order/list_pesanan', [TransOrderController::class, 'index']);
 Route::get('order/history/{id_customer}', [TransOrderController::class, 'history']);
+Route::get('order/get_detail_by_id_order/{id_order}', [TransOrderController::class, 'get_detail_by_id_order']);
 
 
 Route::post('register', [UsersController::class, 'register']);

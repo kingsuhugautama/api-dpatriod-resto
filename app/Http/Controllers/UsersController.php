@@ -13,6 +13,10 @@ class UsersController extends Controller
 {
     public function register(Request $request){
         try{
+            $emailExist = User::where('email', $request->input('email'))->exist();
+            if($emailExist){
+                return response()->json(['status'=>false,'data'=>null,'message'=>'Email Telah Terdaftar']);
+            }
             $token_email = Str::random(30);
             $data = request()->all();
             $data['is_active'] = 1 ;

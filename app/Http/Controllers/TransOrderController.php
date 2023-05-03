@@ -127,7 +127,17 @@ class TransOrderController extends Controller
             $data = transOrder::where('id_customer', $id_customer)->with('transOrderDetail.master_menu')->get();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function get_detail_by_id_order($id_order)
+    {
+        try {
+            $data = transOrder::where('id_order', $id_order)->with('transOrderDetail.master_menu')->first();
+            return response()->json(['status'=>true,'data'=>$data]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
         }
     }
 
