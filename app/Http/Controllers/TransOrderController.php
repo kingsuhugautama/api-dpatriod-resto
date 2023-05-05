@@ -50,7 +50,7 @@ class TransOrderController extends Controller
             $order->price_user = $request->input('price_user');
             $order->return_price_user = $request->input('return_price_user');
             $order->discount = $request->input('discount');
-            $order->is_paid = false;
+            $order->is_paid = $request->input('is_paid');
 
             $order->save();
 
