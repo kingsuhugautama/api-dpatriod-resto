@@ -74,6 +74,29 @@ class TransOrderController extends Controller
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
+
+    public function update_paid(Request $request, $id_order)
+    {
+        try{
+            $order = transOrder::find($id_order);
+            $order->update([
+                'is_paid' => true,
+                'price_user' => $request->price_user,
+                'return_price_user' => $request->return_price_user,
+                $detail = $request->detail
+            ]);
+            $detail = transOrderDetail::where('id_order', $id_order)->get();
+            foreach($detail as $detail){
+                $detail->update([
+                    'is_paid' => true,
+                    'status' => 2
+                ]);
+            }
+            return response()->json(['status'=>true,'data'=>$detail]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
+        }
+    }
     /**
      * Display the specified resource.
      */
@@ -136,26 +159,6 @@ class TransOrderController extends Controller
         try {
             $data = transOrder::where('id_order', $id_order)->with('transOrderDetail.master_menu')->first();
             return response()->json(['status'=>true,'data'=>$data]);
-        } catch (\Exception $ex) {
-            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
-        }
-    }
-
-    public function update_paid($id_order)
-    {
-        try{
-            $order = transOrder::find($id_order);
-            $order->update([
-                'is_paid' => true
-            ]);
-            $detail = transOrderDetail::where('id_order', $id_order)->get();
-            foreach($detail as $detail){
-                $detail->update([
-                    'is_paid' => true,
-                    'status' => 2
-                ]);
-            }
-            return response()->json(['status'=>true,'data'=>$detail]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
         }

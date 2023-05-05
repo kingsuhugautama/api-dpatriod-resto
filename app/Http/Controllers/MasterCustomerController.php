@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\masterCustomer;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MasterCustomerController extends Controller
@@ -13,7 +14,7 @@ class MasterCustomerController extends Controller
     public function index()
     {
         try {
-            $data = masterCustomer::all();
+            $data = User::all();
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
