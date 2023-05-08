@@ -17,7 +17,8 @@ class masterMenu extends Model
         'id_category',
         'name',
         'price',
-        'image'
+        'image',
+        'ready'
     ];
 
     public function category(){
