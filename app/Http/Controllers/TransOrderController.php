@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\transOrder;
 use App\Models\transOrderDetail;
+use App\Models\masterTypePayment;
+use App\Models\masterMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -189,13 +191,52 @@ class TransOrderController extends Controller
                 'transOrderDetail.master_menu:id_menu,id_category,name,price',
                 ])->get();
             $totalRevenue = 0;
+            $totalPayment = [];
+            $totalMenu = [];
             foreach($data as $order){
+                $jenisBayar = $order->master_type_payment->name_payment;
+                foreach ($order->transOrderDetail as $orderDetail) {
+                    $namaMenu = $orderDetail->master_menu->name;
+                    if(!isset($totalMenu[$namaMenu])){
+                        $totalMenu[$namaMenu] = 1;
+                    }else{
+                        $totalMenu[$namaMenu]++;
+                    }
+                }
                 $totalRevenue += $order->total_price;
+                if (!isset($totalPayment[$jenisBayar])) {
+                    $totalPayment[$jenisBayar] = 1;
+                } else {
+                    $totalPayment[$jenisBayar]++;
+                }
             }
-            $result = array(
+            foreach ($totalMenu as $totalMenu => $count) {
+                $menuId = masterMenu::where('name', $totalMenu)->first();
+                if ($totalMenu) {
+                    $hasilTotalMenu[] = [
+                        "id_menu" => $menuId->id_menu,
+                        "name" => $namaMenu,
+                        "total" => $count
+                    ];
+                }
+            }
+            foreach ($totalPayment as $totalPayment => $count) {
+                $paymentType = masterTypePayment::where('name_payment', $totalPayment)->first();
+                if ($totalPayment) {
+                    $hasilTotalBayar[] = [
+                        "id_type_payment" => $paymentType->id_type_payment,
+                        "name_payment" => $totalPayment,
+                        "total" => $count
+                    ];
+                }
+            }
+
+            $result = [
                 "total_pendapatan" => $totalRevenue,
-                "history_order" => $data
-            );
+                "total_jenis_pembayaran" => $hasilTotalBayar,
+                "total_menu" => $hasilTotalMenu,
+                "history_order" => $data,
+            ];
             return response()->json(['status'=>true,'data'=>$result, "message" => "Success" ]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
