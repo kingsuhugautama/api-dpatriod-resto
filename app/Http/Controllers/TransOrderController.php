@@ -186,7 +186,7 @@ class TransOrderController extends Controller
             ->with([
                 'master_type_payment:id_type_payment,name_payment,created_at,updated_at',
                 'transOrderDetail.master_customer', 
-                'transOrderDetail.master_menu:id_menu,id_category,name,price,image',
+                'transOrderDetail.master_menu:id_menu,id_category,name,price',
                 ])->get();
             $totalRevenue = 0;
             foreach($data as $order){
