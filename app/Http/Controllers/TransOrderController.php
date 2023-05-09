@@ -215,7 +215,7 @@ class TransOrderController extends Controller
                 if ($totalMenu) {
                     $hasilTotalMenu[] = [
                         "id_menu" => $menuId->id_menu,
-                        "name" => $namaMenu,
+                        "name" => $totalMenu,
                         "total" => $count
                     ];
                 }
