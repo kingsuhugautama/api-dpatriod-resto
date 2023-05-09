@@ -52,6 +52,9 @@ Route::get('order/history/{id_customer}', [TransOrderController::class, 'history
 Route::get('order/get_detail_by_id_order/{id_order}', [TransOrderController::class, 'get_detail_by_id_order']);
 Route::put('order/update_paid/{id_order}', [TransOrderController::class, 'update_paid']);
 
+Route::post('order/report', [TransOrderController::class, 'report']);
+Route::post('order/report_today', [TransOrderController::class, 'reportToday']);
+
 
 Route::post('register', [UsersController::class, 'register']);
 Route::post('login', [UsersController::class, 'login']);

@@ -32,5 +32,11 @@ class transOrder extends Model
     public function master_customer(){
         return $this->belongsTo(masterCustomer::class, 'id_customer');
     }
+    public function master_menu(){
+        return $this->belongsTo(masterMenu::class, 'id_menu');
+    }
+    public function master_type_payment(){
+        return $this->belongsTo(masterTypePayment::class, 'id_type_payment');
+    }
 
 }

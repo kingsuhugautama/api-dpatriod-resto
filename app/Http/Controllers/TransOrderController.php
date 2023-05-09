@@ -164,6 +164,40 @@ class TransOrderController extends Controller
         }
     }
 
+    public function report(Request $request)
+    {
+        try {
+            $data = transOrder::whereBetween('created_at', [$request->start_date, $request->end_date])
+            ->with([
+                'master_type_payment',
+                'transOrderDetail.master_customer', 
+                'transOrderDetail.master_menu',
+                ])->get();
+            return response()->json(['status'=>true,'data'=>$data, "message" => "Success" ]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
+        }
+    }
+
+    public function reportToday(Request $request)
+    {
+        try {
+            $data = transOrder::whereDate('created_at', $request->today)->where('is_paid', true)
+            ->with([
+                'master_type_payment:id_type_payment,name_payment',
+                'transOrderDetail.master_customer', 
+                'transOrderDetail.master_menu:id_menu,id_category,name,price,image',
+                ])->get();
+            $totalRevenue = 0;
+            foreach($data as $order){
+                $totalRevenue += $order->total_price;
+            }
+            return response()->json(['status'=>true,'data'=>$data, "message" => "Success", "total_revenue" => $totalRevenue ]);
+        } catch (\Exception $ex) {
+            return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
