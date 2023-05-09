@@ -9,6 +9,7 @@ use App\Models\masterMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class TransOrderController extends Controller
 {
@@ -169,12 +170,15 @@ class TransOrderController extends Controller
     public function report(Request $request)
     {
         try {
-            $data = transOrder::whereBetween('created_at', [$request->start_date, $request->end_date])
+            $start_date = Carbon::parse($request->input('start_date'))->startOfDay();
+            $end_date = Carbon::parse($request->input('end_date'))->endOfDay();
+            $data = transOrder::whereDate('created_at', '>=', $start_date)
+            ->whereDate('created_at', '<=', $end_date)
             ->with([
                 'master_type_payment',
                 'transOrderDetail.master_customer', 
                 'transOrderDetail.master_menu',
-                ])->get();
+                ])->get()->toArray();
             return response()->json(['status'=>true,'data'=>$data, "message" => "Success" ]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
