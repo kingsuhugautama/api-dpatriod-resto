@@ -184,7 +184,7 @@ class TransOrderController extends Controller
         try {
             $data = transOrder::whereDate('created_at', $request->today)->where('is_paid', true)
             ->with([
-                'master_type_payment:id_type_payment,name_payment',
+                'master_type_payment:id_type_payment,name_payment,created_at,updated_at',
                 'transOrderDetail.master_customer', 
                 'transOrderDetail.master_menu:id_menu,id_category,name,price,image',
                 ])->get();
@@ -192,7 +192,11 @@ class TransOrderController extends Controller
             foreach($data as $order){
                 $totalRevenue += $order->total_price;
             }
-            return response()->json(['status'=>true,'data'=>$data, "message" => "Success", "total_revenue" => $totalRevenue ]);
+            $result = array(
+                "total_pendapatan" => $totalRevenue,
+                "history_order" => $data
+            );
+            return response()->json(['status'=>true,'data'=>$result, "message" => "Success" ]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
         }
