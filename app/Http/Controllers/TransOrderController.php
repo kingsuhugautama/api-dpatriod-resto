@@ -233,6 +233,7 @@ class TransOrderController extends Controller
             }
 
             $totalPayment = transOrder::select('id_type_payment', DB::raw('COUNT(*) as total'))
+            ->where('is_paid', true)
             ->whereDate('created_at', $request->today)
             ->groupBy('id_type_payment')
             ->get();
