@@ -195,10 +195,10 @@ class TransOrderController extends Controller
                 'transOrderDetail.master_menu:id_menu,id_category,name,price',
                 ])->get();
             $totalRevenue = 0;
+            $totalOrderedMenu = 0;
             $totalPayment = [];
             $totalMenu = [];
             foreach($data as $order){
-                $jenisBayar = $order->master_type_payment->name_payment;
                 foreach ($order->transOrderDetail as $orderDetail) {
                     $namaMenu = $orderDetail->master_menu->name;
                     if(!isset($totalMenu[$namaMenu])){
@@ -206,33 +206,46 @@ class TransOrderController extends Controller
                     }else{
                         $totalMenu[$namaMenu]++;
                     }
+                    $totalOrderedMenu += $orderDetail->qty;
                 }
+
+                //untuk menghitung total pendapatan
                 $totalRevenue += $order->total_price;
-                if (!isset($totalPayment[$jenisBayar])) {
-                    $totalPayment[$jenisBayar] = 1;
-                } else {
-                    $totalPayment[$jenisBayar]++;
-                }
             }
+            $hasilTotalMenu=[];
             foreach ($totalMenu as $totalMenu => $count) {
                 $menuId = masterMenu::where('name', $totalMenu)->first();
-                if ($totalMenu) {
+                if ($menuId) {
+                    $totalQty = transOrderDetail::whereHas('trans_order', function ($query) use ($request) {
+                        $query->whereDate('created_at', $request->today)
+                            ->where('is_paid', true);
+                    })
+                    ->where('id_menu', $menuId->id_menu)
+                    ->sum('qty');
+                    
                     $hasilTotalMenu[] = [
                         "id_menu" => $menuId->id_menu,
                         "name" => $totalMenu,
-                        "total" => $count
+                        "total" => $totalQty
                     ];
+                    $totalOrderedMenu += $totalQty;
                 }
             }
-            foreach ($totalPayment as $totalPayment => $count) {
-                $paymentType = masterTypePayment::where('name_payment', $totalPayment)->first();
-                if ($totalPayment) {
+
+            $totalPayment = transOrder::select('id_type_payment', DB::raw('COUNT(*) as total'))
+            ->whereDate('created_at', $request->today)
+            ->groupBy('id_type_payment')
+            ->get();
+            $hasilTotalBayar=[];
+            foreach ($totalPayment as $totalPayment) {
+                $paymentType = masterTypePayment::find($totalPayment->id_type_payment);
+                if ($paymentType !== null) {
                     $hasilTotalBayar[] = [
-                        "id_type_payment" => $paymentType->id_type_payment,
-                        "name_payment" => $totalPayment,
-                        "total" => $count
+                        "id_type_payment" => $totalPayment->id_type_payment,
+                        "name_payment" => $paymentType->name_payment,
+                        "total" => $totalPayment->total
                     ];
-                }
+                }   
             }
 
             $result = [
