@@ -178,7 +178,7 @@ class TransOrderController extends Controller
                 'master_type_payment',
                 'transOrderDetail.master_customer', 
                 'transOrderDetail.master_menu',
-                ])->get()->toArray();
+                ])->where('is_paid', true)->get()->toArray();
             return response()->json(['status'=>true,'data'=>$data, "message" => "Success" ]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
@@ -213,7 +213,7 @@ class TransOrderController extends Controller
                 $totalRevenue += $order->total_price;
             }
             $hasilTotalMenu=[];
-            foreach ($totalMenu as $totalMenu => $count) {
+            foreach ($totalMenu as $totalMenu) {
                 $menuId = masterMenu::where('name', $totalMenu)->first();
                 if ($menuId) {
                     $totalQty = transOrderDetail::whereHas('trans_order', function ($query) use ($request) {
