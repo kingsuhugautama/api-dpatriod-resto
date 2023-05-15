@@ -39,10 +39,75 @@ class TransOrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function order(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try{   
+    //         $order = new transOrder;
+    //         $order->uuid = Str::uuid();
+    //         $order->id_customer = $request->input('id_customer');
+    //         $order->total_qty = $request->input('total_qty');
+    //         $order->total_price = $request->input('total_price');
+    //         $order->name_user = $request->input('name_user');
+    //         $order->id_type_payment = $request->input('id_type_payment');
+    //         $order->price_user = $request->input('price_user');
+    //         $order->return_price_user = $request->input('return_price_user');
+    //         $order->discount = $request->input('discount');
+    //         $order->is_paid = $request->input('is_paid');
+            
+    //         $data_order = $request->input('data_order');
+
+
+    //         foreach ($data_order as $item) {
+    //             $menuTersedia = MasterMenu::where('id_menu', $item['id_menu'])->first();
+    //             if($menuTersedia){
+    //                 if( $menuTersedia->stok != NULL || $item['qty'] <= $menuTersedia->stok){
+    //                     transOrderDetail::create([
+    //                         'id_order' => $order->id_order,
+    //                         'id_menu' => $item['id_menu'],
+    //                         'qty' => $item['qty'],
+    //                         'total_price' => $item['total_price'],
+    //                         'note' => $item['note'],
+    //                         'status' => $item['status'],
+    //                         'is_paid' => $request->input('is_paid')
+    //                     ]);
+    //                 }else{
+    //                     $isValid = false;
+    //                 }
+    //             }
+    //         }
+    //         if($isValid){
+    //             $order->save();
+    //         }else{
+    //             echo('Stok tidak mencukupi');
+    //         }
+    //         DB::commit();
+    //         return response()->json(['status'=>true,'data'=>$order]);
+    //     } catch (\Exception $ex) {
+    //         DB::rollback();
+    //         return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
+    //     }
+    // }
     public function order(Request $request)
     {
         DB::beginTransaction();
         try{   
+
+            $dataMenuNull  = [];
+
+            // checking qty menu
+            foreach ($request->input('data_order') as $item) {
+                $menu = MasterMenu::find($item['id_menu']);
+                if($menu->stok == NULL ||$menu->stok < $item['qty']){
+                    $dataMenuNull[] = $menu;
+                }
+            }
+
+            if(count($dataMenuNull) > 0){
+                return response()->json(['status'=>false,'data'=>$dataMenuNull,'message'=>"Beberapa Stock Menu Habis" ]);
+            }
+            else{
+
             $order = new transOrder;
             $order->uuid = Str::uuid();
             $order->id_customer = $request->input('id_customer');
@@ -72,6 +137,7 @@ class TransOrderController extends Controller
             }
             DB::commit();
             return response()->json(['status'=>true,'data'=>$order]);
+            }
         } catch (\Exception $ex) {
             DB::rollback();
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -232,14 +298,14 @@ class TransOrderController extends Controller
                 }
             }
 
-            $totalPayment = transOrder::select('id_type_payment', DB::raw('COUNT(*) as total'))
+            $totalPayment = transOrder::select('id_type_payment', DB::raw('COUNT(*) as total')) //mengambil id_type_payment pada tabel trans_order dan menjumlahkan total munculnya id_type_payment
             ->where('is_paid', true)
             ->whereDate('created_at', $request->today)
-            ->groupBy('id_type_payment')
+            ->groupBy('id_type_payment') //ORM untuk mengelompokan perhitungan sesuai id yang dipilih
             ->get();
             $hasilTotalBayar=[];
             foreach ($totalPayment as $totalPayment) {
-                $paymentType = masterTypePayment::find($totalPayment->id_type_payment);
+                $paymentType = masterTypePayment::find($totalPayment->id_type_payment); //mengambil data type payment sesuai id
                 if ($paymentType !== null) {
                     $hasilTotalBayar[] = [
                         "id_type_payment" => $totalPayment->id_type_payment,
@@ -255,7 +321,7 @@ class TransOrderController extends Controller
                 "total_menu" => $hasilTotalMenu,
                 "history_order" => $data,
             ];
-            return response()->json(['status'=>true,'data'=>$result, "message" => "Success" ]);
+            return response()->json(['status'=>true,    'data'=>$result, "message" => "Success" ]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
         }

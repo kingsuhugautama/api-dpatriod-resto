@@ -18,7 +18,8 @@ class masterMenu extends Model
         'name',
         'price',
         'image',
-        'ready'
+        'ready',
+        'stok'
     ];
 
     public function category(){

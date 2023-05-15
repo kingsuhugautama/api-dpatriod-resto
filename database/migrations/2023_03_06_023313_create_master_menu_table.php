@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('id_category')->constrained('master_category');
             $table->string('name',100);
             $table->double('price',12,2);
+            $table->integer('stok');
             $table->string('image',100);
             $table->timestamps();
         });
