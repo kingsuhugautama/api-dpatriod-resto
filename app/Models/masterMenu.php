@@ -19,7 +19,9 @@ class masterMenu extends Model
         'price',
         'image',
         'ready',
-        'stok'
+        'stok',
+        'favorit_chef',
+        'favorit_barista'
     ];
 
     public function category(){

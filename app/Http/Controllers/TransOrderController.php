@@ -121,10 +121,10 @@ class TransOrderController extends Controller
             $order->is_paid = $request->input('is_paid');
 
             $order->save();
-
             $data_order = $request->input('data_order');
 
-            foreach ($data_order as $item) {
+            foreach ($data_order as $item) {    
+                $trans = MasterMenu::find($item['id_menu']);
                 transOrderDetail::create([
                     'id_order' => $order->id_order,
                     'id_menu' => $item['id_menu'],
@@ -134,6 +134,8 @@ class TransOrderController extends Controller
                     'status' => $item['status'],
                     'is_paid' => $request->input('is_paid')
                 ]);
+                $trans->stok -= $item['qty'];
+                $trans->save();
             }
             DB::commit();
             return response()->json(['status'=>true,'data'=>$order]);
