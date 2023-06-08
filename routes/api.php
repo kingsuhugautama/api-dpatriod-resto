@@ -64,6 +64,7 @@ Route::get('logout', [UsersController::class, 'logout']);
 Route::get('payment/register',[PaymentGatewayController::class,'registrasi']);
 Route::post('payment/notification',[PaymentGatewayController::class,'notification']);
 Route::get('payment/callBackUrl',[PaymentGatewayController::class,'callBackUrl']);
+Route::post('payment/callBackUrl',[PaymentGatewayController::class,'callBackUrl']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
