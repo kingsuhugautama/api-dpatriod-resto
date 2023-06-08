@@ -9,6 +9,7 @@ use App\Http\Controllers\MasterMenuController;
 use App\Http\Controllers\MasterCustomerController;
 use App\Http\Controllers\MasterPositionController;
 use App\Http\Controllers\MasterEmployeController;
+use App\Http\Controllers\PaymentGatewayController;
 use App\Http\Controllers\TransOrderController;
 use App\Http\Controllers\UsersController;
 
@@ -60,6 +61,9 @@ Route::post('register', [UsersController::class, 'register']);
 Route::post('login', [UsersController::class, 'login']);
 Route::get('logout', [UsersController::class, 'logout']);
 
+Route::get('payment/register',[PaymentGatewayController::class,'registrasi']);
+Route::post('payment/notification',[PaymentGatewayController::class,'notification']);
+Route::post('payment/callBackUrl',[PaymentGatewayController::class,'callBackUrl']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

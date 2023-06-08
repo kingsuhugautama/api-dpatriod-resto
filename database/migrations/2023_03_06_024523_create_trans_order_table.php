@@ -22,6 +22,7 @@ return new class extends Migration
             $table->double('price_user',12,2);
             $table->double('return_price_user',12,2);
             $table->double('discount',12,2);
+            $table->string('tXid',70);
             $table->timestamps();
         });
     }
