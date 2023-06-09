@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterCounter;
 use App\Models\transOrder;
 use App\Models\transOrderDetail;
 use App\Models\masterTypePayment;
@@ -88,6 +89,15 @@ class TransOrderController extends Controller
     //         return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
     //     }
     // }
+    
+    public function no_order(){
+        $update_master_counter = MasterCounter::where('id',2)->where('keterangan','')->lockForUpdate()->first();
+        $update_master_counter->urut    = $update_master_counter->urut+1;
+        $update_master_counter->tanggal = date('Y-m-d');
+        $update_master_counter->save();
+        return $update_master_counter->prefix.sprintf('%08s', $update_master_counter->urut);
+    }
+    
     public function order(Request $request)
     {
         DB::beginTransaction();
@@ -111,6 +121,7 @@ class TransOrderController extends Controller
             $order = new transOrder;
             $order->uuid = Str::uuid();
             $order->id_customer = $request->input('id_customer');
+            $order->nomor_order = $this->no_order();
             $order->total_qty = $request->input('total_qty');
             $order->total_price = $request->input('total_price');
             $order->name_user = $request->input('name_user');
@@ -123,7 +134,7 @@ class TransOrderController extends Controller
             $order->save();
             $data_order = $request->input('data_order');
 
-            foreach ($data_order as $item) {    
+            foreach ($data_order as $item) {
                 $trans = MasterMenu::find($item['id_menu']);
                 transOrderDetail::create([
                     'id_order' => $order->id_order,

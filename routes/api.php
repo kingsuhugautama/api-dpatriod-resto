@@ -56,12 +56,11 @@ Route::put('order/update_paid/{id_order}', [TransOrderController::class, 'update
 Route::post('order/report', [TransOrderController::class, 'report']);
 Route::post('order/report_today', [TransOrderController::class, 'reportToday']);
 
-
 Route::post('register', [UsersController::class, 'register']);
 Route::post('login', [UsersController::class, 'login']);
 Route::get('logout', [UsersController::class, 'logout']);
 
-Route::get('payment/register',[PaymentGatewayController::class,'registrasi']);
+Route::post('payment/register',[PaymentGatewayController::class,'registrasi']);
 Route::post('payment/notification',[PaymentGatewayController::class,'notification']);
 Route::get('payment/callBackUrl',[PaymentGatewayController::class,'callBackUrl']);
 Route::post('payment/callBackUrl',[PaymentGatewayController::class,'callBackUrl']);

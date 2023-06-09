@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('trans_order', function (Blueprint $table) {
             $table->id('id_order');
             $table->uuid('uuid');
+            $table->string('nomor_order',100);
             $table->integer('id_customer');
             $table->double('total_qty',12,2);
             $table->double('total_price',12,2);
             $table->string('name_user',100);
             $table->integer('id_type_payment')->constrained('master_type_payment');
             $table->double('price_user',12,2);
-            $table->double('return_price_user',12,2);
+            $table->double('return_pric e_user',12,2);
             $table->double('discount',12,2);
             $table->string('tXid',70);
             $table->timestamps();

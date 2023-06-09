@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterCounter;
 use App\Models\TransInvoice;
 use App\Models\TransInvoiceNotif;
+use App\Models\transOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -11,9 +13,16 @@ use Illuminate\Support\Str;
 class PaymentGatewayController extends Controller
 {
     //
-    public function registrasi(){
+    
+    public function registrasi(Request $request){
         
         try{
+        
+            $order = transOrder::where('uuid',$request->uuid)
+            ->with('transOrderDetail.master_menu','transOrderDetail.master_customer')->first();
+            
+            dd($order);
+            
             $timeStamp = date('YmdHIs');
             $iMid = "IONPAYTEST";
             $merchantKey = "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==";
