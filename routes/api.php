@@ -61,6 +61,7 @@ Route::post('login', [UsersController::class, 'login']);
 Route::get('logout', [UsersController::class, 'logout']);
 
 Route::post('payment/register',[PaymentGatewayController::class,'registrasi']);
+Route::post('payment/qris',[PaymentGatewayController::class,'qris']);
 Route::post('payment/notification',[PaymentGatewayController::class,'notification']);
 Route::get('payment/callBackUrl',[PaymentGatewayController::class,'callBackUrl']);
 Route::post('payment/callBackUrl',[PaymentGatewayController::class,'callBackUrl']);
