@@ -143,6 +143,7 @@ class TransOrderController extends Controller
                     'total_price' => $item['total_price'],
                     'note' => $item['note'],
                     'status' => $item['status'],
+                    'price_satuan' => $item['price_satuan'],
                     'is_paid' => $request->input('is_paid')
                 ]);
                 $trans->stok -= $item['qty'];
@@ -334,7 +335,7 @@ class TransOrderController extends Controller
                 "total_menu" => $hasilTotalMenu,
                 "history_order" => $data,
             ];
-            return response()->json(['status'=>true,    'data'=>$result, "message" => "Success" ]);
+            return response()->json(['status'=>true, 'data'=>$result, "message" => "Success" ]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>null,'message'=>$ex->getMessage()]);
         }
