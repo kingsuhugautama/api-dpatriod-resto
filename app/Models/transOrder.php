@@ -12,6 +12,7 @@ class transOrder extends Model
     protected $primaryKey = 'id_order';
     protected $fillable = [
         'uuid',
+        'nomor_order',
         'id_customer',
         'total_qty',
         'total_price',

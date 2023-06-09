@@ -21,8 +21,6 @@ class PaymentGatewayController extends Controller
             $order = transOrder::where('uuid',$request->uuid)
             ->with('transOrderDetail.master_menu','transOrderDetail.master_customer')->first();
             
-            dd($order);
-            
             $timeStamp = date('YmdHIs');
             $iMid = "IONPAYTEST";
             $merchantKey = "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==";
@@ -31,19 +29,23 @@ class PaymentGatewayController extends Controller
             $merchantData = $timeStamp.$iMid.$reffno.$amount.$merchantKey;
             $merTok = hash('sha256',$merchantData);
             
+            $item = [];
+            
+            foreach($order->transOrderDetail as $detail){
+                $item[] = [
+                    "goods_id" => $detail->id_menu, 
+                    "goods_detail" => $detail->master_menu->name, 
+                    "goods_name" => $detail->master_menu->name, 
+                    "goods_amt" => $detail->total_price, 
+                    "goods_type" => $detail->master_menu->name, 
+                    "goods_url" => $detail->master_menu->image, 
+                    "goods_quantity" => $detail->qty
+                ];
+            }
+            
             $cart =[
-                "count" => "1", 
-                "item" => [
-                    [
-                        "goods_id" => "BB12345678", 
-                        "goods_detail" => "BB123456", 
-                        "goods_name" => "iPhone5S", 
-                        "goods_amt" => $amount, 
-                        "goods_type" => "Smartphone", 
-                        "goods_url" => "http://merchant.com/cellphones/iphone5s_64g", 
-                        "goods_quantity" => 1 
-                    ] 
-                ] 
+                "count" => count($order->transOrderDetail), 
+                "item" => $item
             ];
             
             $body = [

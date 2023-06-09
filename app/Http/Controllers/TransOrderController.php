@@ -91,7 +91,7 @@ class TransOrderController extends Controller
     // }
     
     public function no_order(){
-        $update_master_counter = MasterCounter::where('id',2)->where('keterangan','')->lockForUpdate()->first();
+        $update_master_counter = MasterCounter::where('keterangan','ORDER')->lockForUpdate()->first();
         $update_master_counter->urut    = $update_master_counter->urut+1;
         $update_master_counter->tanggal = date('Y-m-d');
         $update_master_counter->save();
