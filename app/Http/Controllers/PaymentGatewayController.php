@@ -19,18 +19,17 @@ class PaymentGatewayController extends Controller
         try{
         
             $order = transOrder::where('uuid',$request->uuid)
-            ->with('transOrderDetail.master_menu','transOrderDetail.master_customer')->first();
+            ->with('transOrderDetail.master_menu','master_customer')->first();
             
             $timeStamp = date('YmdHIs');
             $iMid = "IONPAYTEST";
             $merchantKey = "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==";
-            $reffno = "ord".$timeStamp;
-            $amount = 15000;
+            $reffno = $order->nomor_order;
+            $amount = $order->total_price;
             $merchantData = $timeStamp.$iMid.$reffno.$amount.$merchantKey;
             $merTok = hash('sha256',$merchantData);
-            
+            // dd($order->toArray());
             $item = [];
-            
             foreach($order->transOrderDetail as $detail){
                 $item[] = [
                     "goods_id" => $detail->id_menu, 
@@ -38,8 +37,8 @@ class PaymentGatewayController extends Controller
                     "goods_name" => $detail->master_menu->name, 
                     "goods_amt" => $detail->total_price, 
                     "goods_type" => $detail->master_menu->name, 
-                    "goods_url" => $detail->master_menu->image, 
-                    "goods_quantity" => $detail->qty
+                    "goods_url" => $detail->master_menu->url_image, 
+                    "goods_quantity" => 1
                 ];
             }
             
@@ -47,7 +46,7 @@ class PaymentGatewayController extends Controller
                 "count" => count($order->transOrderDetail), 
                 "item" => $item
             ];
-            
+            $date = strtotime("+1 day");
             $body = [
                 "timeStamp" => $timeStamp, 
                 "iMid" => $iMid, 
@@ -59,14 +58,14 @@ class PaymentGatewayController extends Controller
                 "merchantToken" => $merTok, 
                 "callBackUrl" => "https://dpatriotcafe.com/api/payment/callBackUrl", 
                 "dbProcessUrl" => "https://dpatriotcafe.com/api/payment/notification", 
-                "goodsNm" => "Goods", 
+                "goodsNm" => "makanan/minuman", 
                 "mitraCd" => "", 
-                "vacctValidDt" => "20230610", 
-                "vacctValidTm" => "235959", 
-                "description" => "Testing API by Sibedul", 
-                "billingNm" => "Hantu Kesorean", 
-                "billingPhone" => "081288998899", 
-                "billingEmail" => "abdul@example.com", 
+                "vacctValidDt" => date('Ymd',$date), 
+                "vacctValidTm" => date('His'), 
+                "description" => "Pesanan Makanan Dan Minuman", 
+                "billingNm" => $order->master_customer->name_customer, 
+                "billingPhone" => $order->master_customer->phone_customer, 
+                "billingEmail" => $order->master_customer->email_customer, 
                 "billingAddr" => "", 
                 "billingCity" => "semarang", 
                 "billingState" => "jawa tengah", 
@@ -97,12 +96,13 @@ class PaymentGatewayController extends Controller
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
             ])->post('https://dev.nicepay.co.id/nicepay/redirect/v2/registration',$body);
+            
             $result = $response->object();
             
-            if(!$result->resultCd=='0000'){
+            if($result->resultCd!='0000'){
                 throw new \Exception('error payment gateway '.$result->resultMsg);
             }
-            
+                        
             $notif = new TransInvoice;
             $notif->uuid = Str::uuid();
             $notif->referenceNo =$result->referenceNo;
@@ -110,7 +110,7 @@ class PaymentGatewayController extends Controller
             $notif->payMethod = '';
             $notif->body =json_encode($result);
             $notif->save();
-
+            
             $data = [
                 "result" =>$result,
                 "paymentURL"=>$result->paymentURL.'?tXid='.$result->tXid,

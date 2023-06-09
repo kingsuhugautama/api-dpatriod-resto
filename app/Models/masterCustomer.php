@@ -14,6 +14,7 @@ class masterCustomer extends Model
     protected $primaryKey = 'id_customer';
     protected $dates = ['deleted_at'];
     protected $fillable = [
+        'id_customer',
         'name_customer',
         'email_customer',
         'phone_customer',
