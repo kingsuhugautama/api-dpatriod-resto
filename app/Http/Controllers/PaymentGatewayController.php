@@ -232,6 +232,7 @@ class PaymentGatewayController extends Controller
     public function callBackUrl(Request $request)
     {
         $data = $request->all();
+        $data['amountCurrency'] = number_format($data['amount'], 0, ',', '.');
 
         return view('paymentGateway/callbackUrl', ['data' => $data]);
     }
