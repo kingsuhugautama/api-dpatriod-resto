@@ -19,8 +19,8 @@ class PaymentGatewayController extends Controller
         try{
         
             $order = transOrder::where('uuid',$request->uuid)
-            ->with('transOrderDetail.master_menu','master_customer')->first();
-            
+            ->with('transOrderDetail.master_menu','user')->first();
+            // dd($order);
             $timeStamp = date('YmdHIs');
             $iMid = "IONPAYTEST";
             $merchantKey = "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==";
@@ -63,9 +63,9 @@ class PaymentGatewayController extends Controller
                 "vacctValidDt" => date('Ymd',$date), 
                 "vacctValidTm" => date('His'), 
                 "description" => "Pesanan Makanan Dan Minuman", 
-                "billingNm" => $order->master_customer->name_customer, 
-                "billingPhone" => $order->master_customer->phone_customer, 
-                "billingEmail" => $order->master_customer->email_customer, 
+                "billingNm" => $order->user->name, 
+                "billingPhone" => $order->user->phone, 
+                "billingEmail" => $order->user->email, 
                 "billingAddr" => "", 
                 "billingCity" => "semarang", 
                 "billingState" => "jawa tengah", 
@@ -163,9 +163,9 @@ class PaymentGatewayController extends Controller
                 "amt" => $amount, 
                 "referenceNo" => $reffno,
                 "goodsNm" => "Pesanan Makanan Dan Minuman", 
-                "billingNm" => $order->master_customer->name_customer, 
-                "billingPhone" => $order->master_customer->phone_customer, 
-                "billingEmail" => $order->master_customer->email_customer, 
+                "billingNm" => $order->user->name, 
+                "billingPhone" => $order->user->phone, 
+                "billingEmail" => $order->user->email, 
                 "billingAddr" => "", 
                 "billingCity" => "semarang", 
                 "billingState" => "jawa tengah", 
