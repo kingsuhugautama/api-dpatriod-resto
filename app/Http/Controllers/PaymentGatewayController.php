@@ -228,6 +228,6 @@ class PaymentGatewayController extends Controller
     
     public function callBackUrl(Request $request){
         $data = $request->all();
-        return view('paymentGateway.callbackUrl',$data);
+        return view('paymentGateway.callbackUrl',['data'=>$data]);
     }
 }
