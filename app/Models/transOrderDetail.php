@@ -17,7 +17,8 @@ class transOrderDetail extends Model
         'total_price',
         'note',
         'status',
-        'is_paid'
+        'is_paid',
+        'price_satuan'
     ];
 
     public function trans_order(){
