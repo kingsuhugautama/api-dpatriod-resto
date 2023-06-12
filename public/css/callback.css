@@ -1,0 +1,119 @@
+body {
+    background-color: #ff1616;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Poppins', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    background-color: #FFF7D9;
+    font-family: 'Poppins', sans-serif;
+}
+
+.boxheader {
+    margin-top: 2rem;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 35px;
+    background-color: white;
+    height: 47vh;
+    justify-self: unset;
+    width: 2400px;
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 5px 5px 20px rgb(158, 158, 158);
+}
+
+
+
+.boxcontent {
+
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 35px;
+    background-color: white;
+    justify-self: unset;
+    width: 2400px;
+    max-width: 90%;
+    box-shadow: 5px 5px 20px rgb(158, 158, 158);
+    height: 71vh;
+    max-height: 90%;
+}
+
+.labelpembayaran {
+    text-align: center;
+}
+
+.DetailPembayaran {
+    text-align: center;
+}
+
+.labelValue {
+    justify-content: end;
+}
+
+/* .Buttonbyr {
+
+    border-radius: 15px;
+    background-color: #E5BA73;
+    border: none;
+    opacity: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2400px;
+    max-width: 90%;
+    box-shadow: 5px 5px 20px rgb(158, 158, 158);
+    height: 3vh;
+    max-height: 90%;
+} */
+
+@media (max-width:576px) {
+    .boxheader {
+        height: 47vh;
+    }
+
+    .labelpembayaran {
+        display: block;
+        align-items: center;
+        justify-items: center;
+    }
+
+    .labelValue {
+        justify-content: start;
+    }
+
+    .boxcontent {
+        height: 100vh;
+        display: block;
+    }
+
+    .notif {
+        width: 70vw;
+    }
+
+}
+
+
+
+@media (max-height:700px) {}
+
+#notifContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* Style the toast notification */
+.notif {
+    background-color: #00ccc5;
+    color: rgb(255, 255, 255);
+    padding: 16px;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 30vw;
+    opacity: 0.5;
+    justify-content: space-between;
+    text-align: center;
+}
