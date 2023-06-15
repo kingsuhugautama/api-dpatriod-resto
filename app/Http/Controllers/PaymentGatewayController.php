@@ -246,18 +246,17 @@ class PaymentGatewayController extends Controller
             $notif->payMethod = $request->payMethod;
             $notif->body = json_encode($request->all());
             $notif->save();
-
+            if($request->status==0){
+                transOrder::where('nomor_order',$request->referenceNo)->update([
+                    'is_paid' => true
+                ]);
+            }
             return response()->json(['status' => true, 'data' => $notif]);
         } catch (\Exception $ex) {
             return response()->json(['status' => false, 'data' => [], 'message' => $ex->getMessage()]);
             $notif->status = $request->status;
             $notif->body =json_encode($request->all());
             $notif->save();
-            if($request->status==0){
-                transOrder::where('nomor_order',$request->referenceNo)->update([
-                    'is_paid' => true
-                ]);
-            }
             return response()->json(['status'=>true,'data'=>$notif]);
         } catch (\Exception $ex) {
             $notif_err = new TransInvoiceNotifErr();
