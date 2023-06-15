@@ -19,3 +19,7 @@ Route::get('/verifikasi/{token_email}', [UsersController::class, 'verifikasiEmai
 Route::get('test', function() {
     return json_encode(['hore world']);
 });
+
+Route::get('/debug-sentry', function () {
+    throw new Exception('My first Sentry error!');
+});
