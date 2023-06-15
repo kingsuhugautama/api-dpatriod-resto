@@ -22,7 +22,7 @@
                     <div class="boxheader mt-3 p-5">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-center">
-                                <img src="{{asset('images/payment/logobayar.png')}}" class="img-fluid" style="width: 100px;height:100px" alt="">
+                                <img src="{{asset('images/payment/logobayar.png')}}" class="img-fluid logonya" alt="">
                             </div>
                         </div>
                         <div class="row mt-4">
@@ -33,7 +33,7 @@
 
                         <div class="row mt-3">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-center">
-                                <h1><b>Rp. {{$data['amount']}}<b></h2>
+                                <h1><b>Rp {{$data['amountCurrency']}}<b></h2>
                             </div>
                         </div>
 
@@ -112,8 +112,14 @@
                         </div>
                         <div id="notifContainer" style="display: none;">
                             <div class="notif">
-                                <span><i class="fa-solid fa-circle-info"></i></span>
-                                <p> Berhasil Copy Kode VA</p>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-2">
+                                        <p> Berhasil Copy Kode VA</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -154,6 +160,8 @@
 
                 if (success) {
                     showToast()
+                } else {
+                    alert('gagal copy')
                 }
 
                 // Remove the textarea element from the DOM
