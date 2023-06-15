@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MasterCounter;
 use App\Models\TransInvoice;
 use App\Models\TransInvoiceNotif;
+use App\Models\TransInvoiceNotifErr;
 use App\Models\transOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -179,7 +180,7 @@ class PaymentGatewayController extends Controller
                 "cartData" => json_encode($cart), 
                 "mitraCd" => "QSHP", 
                 "shopId" => "NICEPAY" 
-            ]; 
+            ];
             
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
@@ -217,11 +218,19 @@ class PaymentGatewayController extends Controller
             $notif->referenceNo =$request->referenceNo;
             $notif->tXid =$request->tXid;
             $notif->payMethod = $request->payMethod;
+            $notif->status = $request->status;
             $notif->body =json_encode($request->all());
             $notif->save();
-            
+            if($request->status==0){
+                transOrder::where('nomor_order',$request->referenceNo)->update([
+                    'is_paid' => true
+                ]);
+            }
             return response()->json(['status'=>true,'data'=>$notif]);
         } catch (\Exception $ex) {
+            $notif_err = new TransInvoiceNotifErr();
+            $notif_err->message = $ex->getMessage();
+            $notif_err->body = json_encode($request->all());
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
