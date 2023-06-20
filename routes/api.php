@@ -68,5 +68,5 @@ Route::post('payment/callBackUrl',[PaymentGatewayController::class,'callBackUrl'
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::get('tes/socket',[PaymentGatewayController::class,'socket']);
 ?>

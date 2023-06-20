@@ -261,9 +261,11 @@ class PaymentGatewayController extends Controller
                 try {
                     $response = Http::withHeaders([
                         'Content-Type' => 'application/json',
+                        'my-username' => 'dpatriot-resto',
+                        'my-password' => 'dimas123'
                     ])->post('http://128.199.75.235:3000/notifikasi_payment', [
-                        'nomor_order' => $request->referenceNo,
-                        'status' =>$status
+                        'nomor_order'   => $request->referenceNo,
+                        'status'        => $status
                     ]);
                     $result = $response->object();
                 } catch(\Exception $ex){
@@ -287,5 +289,19 @@ class PaymentGatewayController extends Controller
         $data['amountCurrency'] = number_format($data['amount'], 0, ',', '.');
 
         return view('paymentGateway/callbackUrl', ['data' => $data]);
+    }
+    
+    public function socket()
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'my-username' => 'dpatriot-resto',
+            'my-password' => 'dimas123'
+        ])->post('http://192.168.0.108:3000/notifikasi_payment', [
+            'nomor_order'   => '123243',
+            'status'        => true
+        ]);
+        $result = $response->object();
+        dd($result);
     }
 }
