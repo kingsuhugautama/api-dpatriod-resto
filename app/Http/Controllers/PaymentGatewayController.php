@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SendOneSignal;
 use App\Models\MasterCounter;
 use App\Models\TransInvoice;
 use App\Models\TransInvoiceNotif;
@@ -256,7 +257,7 @@ class PaymentGatewayController extends Controller
                     'is_paid' => true
                 ]);
             }
-            
+            //======= socket
             $status = ($request->status==0)?true:false;
             try {
                 $response = Http::withHeaders([
@@ -277,7 +278,27 @@ class PaymentGatewayController extends Controller
                 ]);
                 $notif_err->save();
             }
-            
+            //======== notification
+            if($request->status==0){
+                try {
+                    $order = transOrder::where('nomor_order',$request->referenceNo)->first();
+                    $payerId = (string)$order->id_customer;
+                    
+                    $data = SendOneSignal::SendByExternalId([$payerId],'Pesanan Sudah Terbayar','pesanan anda dengan nomor order '.$request->referenceNo.' telah terbayar');
+                    $notif_err = new TransInvoiceNotifErr();
+                    $notif_err->message = 'log one signal';
+                    $notif_err->body = json_encode($data);
+                    $notif_err->save();
+                    
+                } catch(\Exception $ex){
+                
+                    $notif_err = new TransInvoiceNotifErr();
+                    $notif_err->message = 'error one signal';
+                    $notif_err->body = json_encode($request->all());
+                    $notif_err->save();
+                    
+                }
+            }
             DB::commit();
             
             return response()->json(['status' => true, 'data' => $notif]);
@@ -311,5 +332,11 @@ class PaymentGatewayController extends Controller
         ]);
         $result = $response->object();
         dd($result);
+    }
+    
+    public function onesignal()
+    {
+        $data = SendOneSignal::SendByExternalId(['1'],'testing','keterangan coba testing');
+        dd($data);
     }
 }

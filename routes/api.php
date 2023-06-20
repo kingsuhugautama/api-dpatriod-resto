@@ -69,4 +69,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('tes/socket',[PaymentGatewayController::class,'socket']);
+Route::get('tes/onesignal',[PaymentGatewayController::class,'onesignal']);
 ?>
