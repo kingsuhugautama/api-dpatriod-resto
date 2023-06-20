@@ -256,21 +256,29 @@ class PaymentGatewayController extends Controller
                     'is_paid' => true
                 ]);
             }
+            
+            $status = ($request->status==0)?true:false;
+            try {
+                $response = Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'my-username' => 'dpatriot-resto',
+                    'my-password' => 'dimas123'
+                ])->post('http://128.199.75.235:3000/notifikasi_payment', [
+                    'nomor_order'   => $request->referenceNo,
+                    'status'        => $status
+                ]);
+                $result = $response->object();
+            } catch(\Exception $ex){
+                $notif_err = new TransInvoiceNotifErr();
+                $notif_err->message = 'error socket';
+                $notif_err->body = json_encode([
+                    'nomor_order'   => $request->referenceNo,
+                    'status'        => $status
+                ]);
+                $notif_err->save();
+            }
+            
             DB::commit();
-                $status = ($request->status==0)?true:false;
-                try {
-                    $response = Http::withHeaders([
-                        'Content-Type' => 'application/json',
-                        'my-username' => 'dpatriot-resto',
-                        'my-password' => 'dimas123'
-                    ])->post('http://128.199.75.235:3000/notifikasi_payment', [
-                        'nomor_order'   => $request->referenceNo,
-                        'status'        => $status
-                    ]);
-                    $result = $response->object();
-                } catch(\Exception $ex){
-                
-                }
             
             return response()->json(['status' => true, 'data' => $notif]);
         } catch (\Exception $ex) {
@@ -297,7 +305,7 @@ class PaymentGatewayController extends Controller
             'Content-Type' => 'application/json',
             'my-username' => 'dpatriot-resto',
             'my-password' => 'dimas123'
-        ])->post('http://192.168.0.108:3000/notifikasi_payment', [
+        ])->post('http://128.199.75.235:3000/notifikasi_payment', [
             'nomor_order'   => '123243',
             'status'        => true
         ]);
