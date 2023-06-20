@@ -8,8 +8,10 @@ use App\Models\TransInvoiceNotif;
 use App\Models\TransInvoiceNotifErr;
 use App\Models\transOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PhpParser\Node\Stmt\TryCatch;
 
 class PaymentGatewayController extends Controller
 {
@@ -17,7 +19,7 @@ class PaymentGatewayController extends Controller
 
     public function registrasi(Request $request)
     {
-
+        DB::beginTransaction();
         try {
 
             $order = transOrder::where('uuid', $request->uuid)
@@ -117,9 +119,11 @@ class PaymentGatewayController extends Controller
                 "result" => $result,
                 "paymentURL" => $result->paymentURL . '?tXid=' . $result->tXid,
             ];
-
+            DB::commit();
+            
             return response()->json(['status' => true, 'data' => $data]);
         } catch (\Exception $ex) {
+            DB::rollback();
             return response()->json(['status' => false, 'data' => [], 'message' => $ex->getMessage()]);
         }
     }
@@ -238,6 +242,7 @@ class PaymentGatewayController extends Controller
 
     public function notification(Request $request)
     {
+            DB::beginTransaction();
         try {
             $notif = new TransInvoiceNotif();
             $notif->uuid = Str::uuid();
@@ -251,17 +256,27 @@ class PaymentGatewayController extends Controller
                     'is_paid' => true
                 ]);
             }
+            DB::commit();
+                $status = ($request->status==0)?true:false;
+                try {
+                    $response = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                    ])->post('http://128.199.75.235:3000/notifikasi_payment', [
+                        'nomor_order' => $request->referenceNo,
+                        'status' =>$status
+                    ]);
+                    $result = $response->object();
+                } catch(\Exception $ex){
+                
+                }
+            
             return response()->json(['status' => true, 'data' => $notif]);
         } catch (\Exception $ex) {
-            return response()->json(['status' => false, 'data' => [], 'message' => $ex->getMessage()]);
-            $notif->status = $request->status;
-            $notif->body =json_encode($request->all());
-            $notif->save();
-            return response()->json(['status'=>true,'data'=>$notif]);
-        } catch (\Exception $ex) {
+            DB::rollback();
             $notif_err = new TransInvoiceNotifErr();
             $notif_err->message = $ex->getMessage();
             $notif_err->body = json_encode($request->all());
+            $notif_err->save();
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
         }
     }
