@@ -284,7 +284,11 @@ class PaymentGatewayController extends Controller
             //======== notification
             if($request->status==0){
                 try {
-                    $data = SendOneSignal::SendByExternalId([$payerId],'Pesanan Sudah Terbayar','pesanan anda dengan nomor order '.$request->referenceNo.' telah terbayar');
+                    $data = SendOneSignal::SendByExternalId(
+                        [$payerId],
+                        'Pesanan Sudah Terbayar','pesanan anda dengan nomor order '.$request->referenceNo.' sedang di siapkan',
+                        ["id_order"=>$order->id_order]
+                    );
                     $notif_err = new TransInvoiceNotifErr();
                     $notif_err->message = 'log one signal';
                     $notif_err->body = json_encode($data);
@@ -336,7 +340,7 @@ class PaymentGatewayController extends Controller
     
     public function onesignal()
     {
-        $data = SendOneSignal::SendByExternalId(['1'],'testing','keterangan coba testing');
+        $data = SendOneSignal::SendByExternalId(['13'],'testing','keterangan coba testing',["id_order"=>1]);
         dd($data);
     }
 }
