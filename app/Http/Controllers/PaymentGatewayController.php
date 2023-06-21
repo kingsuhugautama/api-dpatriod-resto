@@ -257,6 +257,8 @@ class PaymentGatewayController extends Controller
                     'is_paid' => true
                 ]);
             }
+            $order = transOrder::where('nomor_order',$request->referenceNo)->first();
+            $payerId = (string)$order->id_customer;
             //======= socket
             $status = ($request->status==0)?true:false;
             try {
@@ -266,7 +268,8 @@ class PaymentGatewayController extends Controller
                     'my-password' => 'dimas123'
                 ])->post('http://128.199.75.235:3000/notifikasi_payment', [
                     'nomor_order'   => $request->referenceNo,
-                    'status'        => $status
+                    'status'        => $status,
+                    'id_order'      => $order->id_order
                 ]);
                 $result = $response->object();
             } catch(\Exception $ex){
@@ -281,9 +284,6 @@ class PaymentGatewayController extends Controller
             //======== notification
             if($request->status==0){
                 try {
-                    $order = transOrder::where('nomor_order',$request->referenceNo)->first();
-                    $payerId = (string)$order->id_customer;
-                    
                     $data = SendOneSignal::SendByExternalId([$payerId],'Pesanan Sudah Terbayar','pesanan anda dengan nomor order '.$request->referenceNo.' telah terbayar');
                     $notif_err = new TransInvoiceNotifErr();
                     $notif_err->message = 'log one signal';
