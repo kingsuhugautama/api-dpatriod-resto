@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('total_price',12,2);
             $table->string('note',200);
             $table->integer('status');
+            $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });
     }

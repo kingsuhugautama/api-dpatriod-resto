@@ -24,6 +24,7 @@ return new class extends Migration
             $table->double('return_pric e_user',12,2);
             $table->double('discount',12,2);
             $table->string('tXid',70);
+            $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });
     }

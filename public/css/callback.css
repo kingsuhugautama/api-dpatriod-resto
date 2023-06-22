@@ -1,0 +1,153 @@
+body {
+    background-color: #ff1616;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Poppins', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    background-color: #FFF7D9;
+    font-family: 'Poppins', sans-serif;
+    padding: auto;
+}
+
+.boxheader {
+    margin-top: 2rem;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 35px;
+    background-color: white;
+    padding: 10px;
+    height: 36vh;
+    justify-self: unset;
+    width: 2400px;
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 5px 5px 20px rgb(158, 158, 158);
+}
+
+
+
+.boxcontent {
+
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 35px;
+    background-color: white;
+    justify-self: unset;
+    width: 2400px;
+    max-width: 90%;
+    box-shadow: 5px 5px 20px rgb(158, 158, 158);
+    height: 71vh;
+    max-height: 90%;
+}
+
+.labelpembayaran {
+    text-align: center;
+}
+
+.DetailPembayaran {
+    text-align: center;
+}
+
+.labelValue {
+    justify-content: end;
+}
+
+.logonya {
+    width: 70px;
+    height: 70px;
+}
+
+/* .Buttonbyr {
+
+    border-radius: 15px;
+    background-color: #E5BA73;
+    border: none;
+    opacity: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2400px;
+    max-width: 90%;
+    box-shadow: 5px 5px 20px rgb(158, 158, 158);
+    height: 3vh;
+    max-height: 90%;
+} */
+
+@media (max-width:576px) {
+    .boxheader {
+        height: 39vh;
+    }
+
+    .boxheader h2 {
+        font-size: 13px;
+    }
+
+    .boxheader h1 {
+        font-size: 24px;
+    }
+
+    .labelpembayaran {
+        display: block;
+        align-items: center;
+        justify-items: center;
+    }
+
+    .labelValue {
+        justify-content: start;
+    }
+
+    .boxcontent {
+        height: 80vh;
+        display: block;
+    }
+
+    .boxcontent h2 {
+        font-size: 14px;
+    }
+
+    .boxcontent h4 {
+        font-size: 12px;
+    }
+
+    .notif {
+        width: 80vw;
+    }
+
+    .notif p {
+        font-size: 10px;
+        height: 70px;
+    }
+
+}
+
+
+
+@media (max-height:700px) {}
+
+#notifContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.boxcontent {
+    height: 75vh;
+    display: block;
+}
+
+/* Style the toast notification */
+.notif {
+    background-color: #00ccc5;
+    color: rgb(255, 255, 255);
+    padding: 16px;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    opacity: 0.5;
+    justify-content: space-around;
+    text-align: center;
+    height: 60px;
+    width: 40vw;
+}

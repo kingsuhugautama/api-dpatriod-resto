@@ -39,5 +39,8 @@ class transOrder extends Model
     public function master_type_payment(){
         return $this->belongsTo(masterTypePayment::class, 'id_type_payment');
     }
+    public function user(){
+        return $this->belongsTo(User::class,'id_customer','id');
+    }
 
 }
