@@ -56,7 +56,7 @@ class MasterMenuController extends Controller
     public function show(masterMenu $masterMenu)
     {
         try{
-            $data = $masterMenu->first();
+            $data = $masterMenu;
             return response()->json(['status'=>true,'data'=>$data]);
         } catch (\Exception $ex) {
             return response()->json(['status'=>false,'data'=>[],'message'=>$ex->getMessage()]);
@@ -85,6 +85,8 @@ class MasterMenuController extends Controller
                 $upload_image->move(public_path('images/menu/'), $upload_image_name);
                 $insert['image'] = $upload_image_name;
                 $request->request->add(['image'=>$upload_image_name]);
+            }else{
+                $request->request->add(	['image'=>'']);
             }            
             $data->update($request->all());
             return response()->json(['status'=>true,'data'=>$data]);

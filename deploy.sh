@@ -1,3 +1,4 @@
 git pull
-php artisan optimize:clear
 composer update
+composer dump-autoload
+php artisan optimize:clear
