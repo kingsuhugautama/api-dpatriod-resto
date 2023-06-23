@@ -21,7 +21,8 @@ class masterMenu extends Model
         'ready',
         'stok',
         'favorit_chef',
-        'favorit_barista'
+        'favorit_barista',
+        'is_cook'
     ];
 
     public function category(){

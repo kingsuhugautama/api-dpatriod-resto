@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double('price',12,2);
             $table->integer('stok');
             $table->string('image',100);
+            $table->boolean('is_cook');
             $table->timestamps();
         });
     }
