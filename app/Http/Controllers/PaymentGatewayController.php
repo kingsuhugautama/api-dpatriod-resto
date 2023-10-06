@@ -27,8 +27,8 @@ class PaymentGatewayController extends Controller
                 ->with('transOrderDetail.master_menu', 'user')->first();
             // dd($order);
             $timeStamp = date('YmdHIs');
-            $iMid = "IONPAYTEST";
-            $merchantKey = "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==";
+            $iMid = env('NICEPAY_IMID');
+            $merchantKey = env('NICEPAY_MERCHANTKEY');
             $reffno = $order->nomor_order;
             $amount = $order->total_price;
             $merchantData = $timeStamp . $iMid . $reffno . $amount . $merchantKey;
@@ -100,7 +100,7 @@ class PaymentGatewayController extends Controller
 
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-            ])->post('https://dev.nicepay.co.id/nicepay/redirect/v2/registration', $body);
+            ])->post(env('NICEPAY_URL').'nicepay/redirect/v2/registration', $body);
 
             $result = $response->object();
 
@@ -138,8 +138,8 @@ class PaymentGatewayController extends Controller
                 ->with('transOrderDetail.master_menu', 'master_customer')->first();
 
             $timeStamp = date('YmdHIs');
-            $iMid = "IONPAYTEST";
-            $merchantKey = "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==";
+            $iMid = env('NICEPAY_IMID');
+            $merchantKey = env('NICEPAY_MERCHANTKEY');
             $reffno = $order->nomor_order;
             $amount = $order->total_price;
             $merchantData = $timeStamp . $iMid . $reffno . $amount . $merchantKey;
@@ -191,7 +191,7 @@ class PaymentGatewayController extends Controller
             
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-            ])->post('https://dev.nicepay.co.id/nicepay/direct/v2/registration',$body);
+            ])->post(env('NICEPAY_URL').'nicepay/direct/v2/registration',$body);
             
             $result = $response->object();
             
@@ -214,7 +214,7 @@ class PaymentGatewayController extends Controller
 
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-            ])->post('https://dev.nicepay.co.id/nicepay/direct/v2/registration', $body);
+            ])->post(env('NICEPAY_URL').'nicepay/direct/v2/registration', $body);
 
             $result = $response->object();
 
