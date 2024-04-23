@@ -212,32 +212,36 @@ class PaymentGatewayController extends Controller
                 "QRIS"=>$result->qrContent,
             ];
 
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->post(env('NICEPAY_URL').'nicepay/direct/v2/registration', $body);
+            // $response = Http::withHeaders([
+            //     'Content-Type' => 'application/json',
+            // ])->post(env('NICEPAY_URL').'nicepay/direct/v2/registration', $body);
 
-            $result = $response->object();
+            // $result = $response->object();
 
-            if ($result->resultCd != '0000') {
-                throw new \Exception('error payment gateway ' . $result->resultMsg);
-            }
+            // if ($result->resultCd != '0000') {
+            //     throw new \Exception('error payment gateway ' . $result->resultMsg);
+            // }
 
-            $notif = new TransInvoice;
-            $notif->uuid = Str::uuid();
-            $notif->referenceNo = $result->referenceNo;
-            $notif->tXid = $result->tXid;
-            $notif->payMethod = '';
-            $notif->body = json_encode($result);
-            $notif->save();
+            // $notif = new TransInvoice;
+            // $notif->uuid = Str::uuid();
+            // $notif->referenceNo = $result->referenceNo;
+            // $notif->tXid = $result->tXid;
+            // $notif->payMethod = '';
+            // $notif->body = json_encode($result);
+            // $notif->save();
 
-            $data = [
-                "result" => $result,
-                "QRIS" => $result->qrContent,
-            ];
+            // $data = [
+            //     "result" => $result,
+            //     "QRIS" => $result->qrContent,
+            // ];
 
             return response()->json(['status' => true, 'data' => $data]);
         } catch (\Exception $ex) {
-            return response()->json(['status' => false, 'data' => [], 'message' => $ex->getMessage()]);
+            return response()->json(['status' => false, 'data' => [
+                "header" => env('NICEPAY_URL').'nicepay/direct/v2/registration',
+                "payload" => $body,
+                "response" => $result
+            ], 'message' => $ex->getMessage()]);
         }
     }
 
