@@ -122,7 +122,13 @@ class PaymentGatewayController extends Controller
             ];
             DB::commit();
             
-            return response()->json(['status' => true, 'data' => $data]);
+            return response()->json(['status' => true, 'data' => $data,
+                'http' => [
+                    "header" => env('NICEPAY_URL').'nicepay/direct/v2/registration',
+                    "payload" => $body,
+                    "response" => $result
+                ] 
+            ]);
         } catch (\Exception $ex) {
             DB::rollback();
             return response()->json(['status' => false, 'data' => [], 'message' => $ex->getMessage()]);
