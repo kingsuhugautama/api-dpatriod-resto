@@ -56,7 +56,7 @@ class PaymentGatewayController extends Controller
                 "timeStamp" => $timeStamp,
                 "iMid" => $iMid,
                 "payMethod" => "00",
-                "bankCd" => "CENA",
+                // "bankCd" => "CENA",
                 "currency" => "IDR",
                 "amt" => $amount,
                 "referenceNo" => $reffno,
