@@ -192,7 +192,7 @@ class PaymentGatewayController extends Controller
                 "userIP" => "127.0.0.1",
                 "cartData" => json_encode($cart),
                 "mitraCd" => "QSHP",
-                "shopId" => "NICEPAY"
+                "shopId" => env("SHOPID")
             ];
             
             $response = Http::withHeaders([
